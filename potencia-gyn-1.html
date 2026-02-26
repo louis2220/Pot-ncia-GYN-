@@ -1,0 +1,1508 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Potência GYN | Especializado em Scania</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Barlow+Condensed:ital,wght@0,300;0,400;0,600;0,700;0,800;0,900;1,700&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+  :root {
+    --red: #D41217;
+    --red-dark: #9E0C10;
+    --red-glow: rgba(212,18,23,0.4);
+    --silver: #C8CDD4;
+    --silver-light: #E8ECF0;
+    --dark: #080A0C;
+    --dark2: #0D1014;
+    --dark3: #121519;
+    --dark4: #1A1E24;
+    --dark5: #222830;
+    --blue-accent: #0080FF;
+    --blue-glow: rgba(0,128,255,0.3);
+    --text-muted: #6B7280;
+    --border: rgba(200,205,212,0.1);
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--dark);
+    color: var(--silver-light);
+    font-family: 'Barlow', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--dark2); }
+  ::-webkit-scrollbar-thumb { background: var(--red); border-radius: 3px; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 1000;
+    background: rgba(8,10,12,0.92);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 5%;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 70px;
+    transition: all 0.3s;
+  }
+  nav.scrolled {
+    background: rgba(8,10,12,0.98);
+    border-bottom-color: var(--red);
+    box-shadow: 0 4px 30px rgba(0,0,0,0.5);
+  }
+  .nav-logo {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.6rem; font-weight: 900;
+    color: white; letter-spacing: 2px;
+    text-decoration: none; display: flex; align-items: center; gap: 10px;
+  }
+  .nav-logo span { color: var(--red); }
+  .nav-logo-badge {
+    background: var(--red);
+    color: white; font-size: 0.55rem; font-weight: 700;
+    padding: 2px 6px; border-radius: 2px; letter-spacing: 1px;
+    align-self: flex-start; margin-top: 4px;
+  }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    color: var(--silver); font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.95rem; font-weight: 600; letter-spacing: 1.5px;
+    text-decoration: none; text-transform: uppercase;
+    transition: color 0.2s; position: relative; padding-bottom: 4px;
+  }
+  .nav-links a::after {
+    content: ''; position: absolute; bottom: 0; left: 0;
+    width: 0; height: 2px; background: var(--red);
+    transition: width 0.3s;
+  }
+  .nav-links a:hover { color: white; }
+  .nav-links a:hover::after { width: 100%; }
+  .nav-cta {
+    background: var(--red); color: white !important;
+    padding: 8px 20px !important; border-radius: 3px;
+    font-weight: 700 !important;
+  }
+  .nav-cta::after { display: none !important; }
+  .nav-cta:hover { background: var(--red-dark) !important; }
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+  .hamburger span { width: 24px; height: 2px; background: var(--silver); transition: all 0.3s; }
+
+  /* HERO */
+  #hero {
+    min-height: 100vh; display: flex; align-items: center;
+    position: relative; overflow: hidden;
+    background: linear-gradient(135deg, var(--dark) 0%, #0A0D10 50%, #050708 100%);
+    padding-top: 70px;
+  }
+  .hero-bg {
+    position: absolute; inset: 0; overflow: hidden;
+  }
+  .hero-bg::before {
+    content: ''; position: absolute;
+    width: 800px; height: 800px;
+    background: radial-gradient(circle, var(--red-glow) 0%, transparent 70%);
+    top: -200px; left: -200px; animation: pulse-red 4s ease-in-out infinite;
+  }
+  .hero-bg::after {
+    content: ''; position: absolute;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, var(--blue-glow) 0%, transparent 70%);
+    bottom: -100px; right: -100px; animation: pulse-blue 5s ease-in-out infinite alternate;
+  }
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image: 
+      linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+  }
+  .hero-content {
+    position: relative; z-index: 2;
+    max-width: 1300px; margin: 0 auto;
+    padding: 80px 5%;
+    display: grid; grid-template-columns: 1fr 1fr;
+    align-items: center; gap: 60px;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(212,18,23,0.15); border: 1px solid var(--red);
+    color: var(--red); padding: 6px 14px; border-radius: 2px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.8rem; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; margin-bottom: 20px;
+    animation: fadeInUp 0.6s ease forwards;
+  }
+  .hero-badge .dot { width: 6px; height: 6px; background: var(--red); border-radius: 50%; animation: blink 1.5s infinite; }
+  .hero-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(3rem, 6vw, 5.5rem);
+    font-weight: 900; line-height: 0.9;
+    text-transform: uppercase; letter-spacing: -1px;
+    animation: fadeInUp 0.6s 0.1s ease both;
+  }
+  .hero-title .red { color: var(--red); }
+  .hero-title .outline {
+    -webkit-text-stroke: 2px var(--silver);
+    color: transparent;
+  }
+  .hero-subtitle {
+    font-size: 1.1rem; color: var(--text-muted);
+    margin: 20px 0 35px; line-height: 1.6;
+    font-weight: 300; animation: fadeInUp 0.6s 0.2s ease both;
+  }
+  .hero-actions {
+    display: flex; gap: 15px; flex-wrap: wrap;
+    animation: fadeInUp 0.6s 0.3s ease both;
+  }
+  .btn-primary {
+    background: var(--red); color: white;
+    padding: 14px 32px; font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1rem; font-weight: 700; letter-spacing: 1.5px;
+    text-transform: uppercase; text-decoration: none;
+    border: none; cursor: pointer; border-radius: 3px;
+    transition: all 0.3s; display: inline-flex; align-items: center; gap: 10px;
+    position: relative; overflow: hidden;
+  }
+  .btn-primary::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent);
+    opacity: 0; transition: opacity 0.3s;
+  }
+  .btn-primary:hover { background: #B50E12; box-shadow: 0 8px 30px var(--red-glow); transform: translateY(-2px); }
+  .btn-primary:hover::before { opacity: 1; }
+  .btn-secondary {
+    background: transparent; color: var(--silver);
+    padding: 14px 32px; font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1rem; font-weight: 700; letter-spacing: 1.5px;
+    text-transform: uppercase; text-decoration: none;
+    border: 1px solid var(--border); cursor: pointer; border-radius: 3px;
+    transition: all 0.3s; display: inline-flex; align-items: center; gap: 10px;
+  }
+  .btn-secondary:hover { border-color: var(--silver); color: white; transform: translateY(-2px); }
+  .hero-stats {
+    display: flex; gap: 30px; margin-top: 50px;
+    animation: fadeInUp 0.6s 0.4s ease both;
+  }
+  .hero-stat { text-align: left; }
+  .hero-stat-num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 2.5rem; font-weight: 900; color: white; line-height: 1;
+  }
+  .hero-stat-num span { color: var(--red); }
+  .hero-stat-label { font-size: 0.75rem; color: var(--text-muted); letter-spacing: 1px; text-transform: uppercase; margin-top: 2px; }
+  .hero-divider { width: 1px; background: var(--border); }
+
+  .hero-right { position: relative; animation: fadeInRight 0.8s 0.2s ease both; }
+  .hero-card-main {
+    background: linear-gradient(135deg, var(--dark3), var(--dark4));
+    border: 1px solid var(--border);
+    border-radius: 8px; overflow: hidden;
+    position: relative;
+  }
+  .hero-card-main::before {
+    content: ''; position: absolute;
+    top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, var(--red), var(--blue-accent));
+  }
+  .hero-truck-visual {
+    height: 280px;
+    background: 
+      radial-gradient(ellipse at 50% 80%, var(--red-glow) 0%, transparent 60%),
+      linear-gradient(180deg, transparent 0%, rgba(212,18,23,0.05) 100%);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 8rem; position: relative;
+  }
+  .truck-icon-large { filter: drop-shadow(0 0 30px var(--red-glow)); }
+  .hero-card-info { padding: 20px 25px; border-top: 1px solid var(--border); }
+  .hero-card-info h3 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.4rem; font-weight: 800; color: white;
+    letter-spacing: 1px; margin-bottom: 5px;
+  }
+  .hero-card-info p { font-size: 0.85rem; color: var(--text-muted); }
+  .hero-cards-mini {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 12px; margin-top: 12px;
+  }
+  .mini-card {
+    background: var(--dark4); border: 1px solid var(--border);
+    border-radius: 6px; padding: 15px;
+    transition: all 0.3s;
+  }
+  .mini-card:hover { border-color: var(--red); background: rgba(212,18,23,0.05); }
+  .mini-card-icon { font-size: 1.4rem; margin-bottom: 8px; }
+  .mini-card-title { font-family: 'Barlow Condensed', sans-serif; font-size: 1rem; font-weight: 700; color: white; }
+  .mini-card-sub { font-size: 0.75rem; color: var(--text-muted); }
+
+  /* SECTION BASE */
+  section { padding: 100px 5%; }
+  .section-header { text-align: center; margin-bottom: 60px; }
+  .section-tag {
+    display: inline-block;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.75rem; font-weight: 700; letter-spacing: 3px;
+    text-transform: uppercase; color: var(--red);
+    margin-bottom: 12px;
+  }
+  .section-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 900;
+    text-transform: uppercase; letter-spacing: -0.5px; color: white;
+    line-height: 1;
+  }
+  .section-title .outline {
+    -webkit-text-stroke: 1px rgba(200,205,212,0.4);
+    color: transparent;
+  }
+  .section-desc {
+    font-size: 1rem; color: var(--text-muted);
+    max-width: 600px; margin: 15px auto 0; line-height: 1.7;
+  }
+  .max-container { max-width: 1300px; margin: 0 auto; }
+
+  /* SERVICES */
+  #servicos { background: var(--dark2); }
+  .services-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+  }
+  .service-card {
+    background: var(--dark3); border: 1px solid var(--border);
+    border-radius: 8px; padding: 35px 30px;
+    position: relative; overflow: hidden;
+    transition: all 0.4s; cursor: pointer;
+  }
+  .service-card::before {
+    content: ''; position: absolute;
+    bottom: 0; left: 0; right: 0; height: 0;
+    background: linear-gradient(180deg, transparent, rgba(212,18,23,0.08));
+    transition: height 0.4s;
+  }
+  .service-card:hover { border-color: var(--red); transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
+  .service-card:hover::before { height: 100%; }
+  .service-card-num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 4rem; font-weight: 900; color: rgba(212,18,23,0.08);
+    position: absolute; top: 10px; right: 20px; line-height: 1;
+    transition: color 0.4s;
+  }
+  .service-card:hover .service-card-num { color: rgba(212,18,23,0.15); }
+  .service-icon {
+    width: 56px; height: 56px;
+    background: rgba(212,18,23,0.12); border: 1px solid rgba(212,18,23,0.3);
+    border-radius: 6px; display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem; color: var(--red); margin-bottom: 20px;
+    transition: all 0.3s;
+  }
+  .service-card:hover .service-icon { background: var(--red); color: white; box-shadow: 0 0 20px var(--red-glow); }
+  .service-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.3rem; font-weight: 800; color: white;
+    text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px;
+  }
+  .service-desc { font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; }
+  .service-link {
+    display: inline-flex; align-items: center; gap: 6px;
+    color: var(--red); font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.85rem; font-weight: 700; letter-spacing: 1px;
+    text-transform: uppercase; text-decoration: none;
+    margin-top: 20px; transition: gap 0.2s;
+  }
+  .service-link:hover { gap: 10px; }
+
+  /* ORCAMENTO */
+  #orcamento {
+    background: var(--dark);
+    position: relative; overflow: hidden;
+  }
+  #orcamento::before {
+    content: ''; position: absolute;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, var(--red-glow) 0%, transparent 70%);
+    right: -200px; top: 50%; transform: translateY(-50%);
+    pointer-events: none;
+  }
+  .orcamento-grid {
+    display: grid; grid-template-columns: 1fr 1.2fr;
+    gap: 60px; align-items: start;
+  }
+  .orcamento-info h3 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 2rem; font-weight: 900; color: white;
+    text-transform: uppercase; margin-bottom: 15px;
+  }
+  .orcamento-info p { color: var(--text-muted); line-height: 1.7; margin-bottom: 30px; }
+  .orcamento-features { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+  .orcamento-features li {
+    display: flex; align-items: center; gap: 12px;
+    color: var(--silver); font-size: 0.95rem;
+  }
+  .orcamento-features li .check {
+    width: 22px; height: 22px;
+    background: rgba(212,18,23,0.15); border: 1px solid var(--red);
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    color: var(--red); font-size: 0.65rem; flex-shrink: 0;
+  }
+  .contact-info-cards { margin-top: 35px; display: flex; flex-direction: column; gap: 12px; }
+  .contact-info-card {
+    display: flex; align-items: center; gap: 14px;
+    background: var(--dark3); border: 1px solid var(--border);
+    border-radius: 6px; padding: 14px 18px;
+    text-decoration: none; transition: all 0.3s;
+  }
+  .contact-info-card:hover { border-color: var(--red); }
+  .contact-info-card .icon {
+    width: 38px; height: 38px;
+    background: rgba(212,18,23,0.12); border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--red); font-size: 1rem; flex-shrink: 0;
+  }
+  .contact-info-card .label { font-size: 0.7rem; color: var(--text-muted); letter-spacing: 1px; text-transform: uppercase; }
+  .contact-info-card .value { font-weight: 600; color: white; font-size: 0.95rem; }
+
+  /* FORM */
+  .form-card {
+    background: var(--dark3); border: 1px solid var(--border);
+    border-radius: 10px; padding: 40px;
+    position: relative;
+  }
+  .form-card::before {
+    content: ''; position: absolute;
+    top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, var(--red), #FF4444, var(--red));
+    border-radius: 10px 10px 0 0;
+  }
+  .form-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.5rem; font-weight: 800; color: white;
+    text-transform: uppercase; margin-bottom: 25px;
+  }
+  .form-group { margin-bottom: 18px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+  label {
+    display: block; font-size: 0.75rem; font-weight: 600;
+    letter-spacing: 1px; text-transform: uppercase; color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+  input, select, textarea {
+    width: 100%; background: var(--dark4);
+    border: 1px solid var(--border); border-radius: 4px;
+    padding: 12px 15px; color: white; font-family: 'Barlow', sans-serif;
+    font-size: 0.95rem; transition: border-color 0.3s;
+    outline: none;
+  }
+  input:focus, select:focus, textarea:focus { border-color: var(--red); }
+  select option { background: var(--dark4); }
+  textarea { height: 100px; resize: vertical; }
+  .form-submit {
+    width: 100%; padding: 15px;
+    background: var(--red); border: none; border-radius: 4px;
+    color: white; font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.1rem; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; cursor: pointer; transition: all 0.3s;
+    margin-top: 5px; display: flex; align-items: center; justify-content: center; gap: 10px;
+  }
+  .form-submit:hover { background: var(--red-dark); box-shadow: 0 8px 30px var(--red-glow); transform: translateY(-2px); }
+
+  /* NF SECTION */
+  #nota-fiscal { background: var(--dark2); }
+  .nf-wrapper {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 60px; align-items: center;
+  }
+  .nf-visual {
+    background: var(--dark3); border: 1px solid var(--border);
+    border-radius: 10px; padding: 35px;
+    position: relative; overflow: hidden;
+  }
+  .nf-visual::before {
+    content: ''; position: absolute;
+    top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, var(--red), #22C55E);
+  }
+  .nf-header { display: flex; align-items: center; gap: 15px; margin-bottom: 25px; }
+  .nf-logo-box {
+    background: var(--dark4); border: 1px solid var(--border);
+    border-radius: 6px; padding: 12px 20px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.1rem; font-weight: 900; color: white;
+  }
+  .nf-logo-box span { color: var(--red); }
+  .nf-stamp {
+    margin-left: auto;
+    background: rgba(34,197,94,0.15); border: 1px solid #22C55E;
+    color: #22C55E; padding: 5px 12px; border-radius: 20px;
+    font-size: 0.75rem; font-weight: 700; letter-spacing: 1px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .nf-rows { display: flex; flex-direction: column; gap: 8px; }
+  .nf-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 10px 15px; background: var(--dark4); border-radius: 4px;
+    font-size: 0.9rem;
+  }
+  .nf-row .item { color: var(--text-muted); }
+  .nf-row .val { color: white; font-weight: 600; }
+  .nf-row .val.red { color: var(--red); }
+  .nf-total {
+    margin-top: 12px; padding: 15px;
+    background: rgba(212,18,23,0.08); border: 1px solid var(--red);
+    border-radius: 6px; display: flex; justify-content: space-between;
+    align-items: center;
+  }
+  .nf-total .label { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; color: white; font-size: 1.1rem; }
+  .nf-total .amount { font-family: 'Barlow Condensed', sans-serif; font-size: 1.8rem; font-weight: 900; color: var(--red); }
+  .nf-info h3 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 2.2rem; font-weight: 900; color: white;
+    text-transform: uppercase; line-height: 1; margin-bottom: 15px;
+  }
+  .nf-info p { color: var(--text-muted); line-height: 1.7; margin-bottom: 25px; }
+  .nf-features { display: flex; flex-direction: column; gap: 15px; }
+  .nf-feature {
+    display: flex; align-items: flex-start; gap: 14px;
+    padding: 15px; background: var(--dark3);
+    border: 1px solid var(--border); border-radius: 6px;
+    transition: border-color 0.3s;
+  }
+  .nf-feature:hover { border-color: var(--red); }
+  .nf-feature .icon { color: var(--red); font-size: 1.2rem; margin-top: 2px; flex-shrink: 0; }
+  .nf-feature h4 { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; color: white; font-size: 1rem; margin-bottom: 3px; }
+  .nf-feature p { font-size: 0.85rem; color: var(--text-muted); margin: 0; line-height: 1.5; }
+
+  /* MODELOS */
+  #modelos { background: var(--dark); }
+  .modelos-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+  }
+  .modelo-card {
+    background: var(--dark3); border: 1px solid var(--border);
+    border-radius: 8px; overflow: hidden; transition: all 0.4s;
+    cursor: pointer;
+  }
+  .modelo-card:hover { border-color: var(--red); transform: translateY(-5px); box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+  .modelo-visual {
+    height: 160px;
+    background: linear-gradient(135deg, var(--dark4), var(--dark5));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 4rem; position: relative; overflow: hidden;
+  }
+  .modelo-visual::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(180deg, transparent 50%, var(--dark3));
+  }
+  .modelo-badge {
+    position: absolute; top: 12px; right: 12px;
+    background: var(--red); color: white;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.7rem; font-weight: 700; letter-spacing: 1px;
+    padding: 3px 10px; border-radius: 2px; z-index: 2;
+  }
+  .modelo-body { padding: 20px; }
+  .modelo-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.4rem; font-weight: 900; color: white;
+    letter-spacing: 0.5px; margin-bottom: 5px;
+  }
+  .modelo-spec { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 15px; }
+  .modelo-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 15px; }
+  .modelo-tag {
+    background: var(--dark4); border: 1px solid var(--border);
+    color: var(--silver); font-size: 0.7rem; font-weight: 600;
+    padding: 3px 10px; border-radius: 2px; letter-spacing: 0.5px;
+  }
+  .modelo-footer {
+    display: flex; justify-content: space-between; align-items: center;
+    padding-top: 15px; border-top: 1px solid var(--border);
+  }
+  .modelo-year { font-family: 'Barlow Condensed', sans-serif; font-size: 1.1rem; font-weight: 700; color: var(--red); }
+  .modelo-btn {
+    background: var(--red); color: white;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.8rem; font-weight: 700; letter-spacing: 1px;
+    padding: 6px 16px; border-radius: 2px; text-decoration: none;
+    transition: background 0.2s;
+  }
+  .modelo-btn:hover { background: var(--red-dark); }
+
+  /* NOTICIAS */
+  #noticias { background: var(--dark2); }
+  .noticias-grid {
+    display: grid; grid-template-columns: 2fr 1fr;
+    gap: 20px;
+  }
+  .noticia-featured {
+    background: var(--dark3); border: 1px solid var(--border);
+    border-radius: 8px; overflow: hidden; transition: border-color 0.3s;
+    cursor: pointer;
+  }
+  .noticia-featured:hover { border-color: var(--red); }
+  .noticia-featured-img {
+    height: 240px;
+    background: linear-gradient(135deg, #1A0505, #0D1520);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 5rem; position: relative; overflow: hidden;
+  }
+  .noticia-featured-img::before {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(180deg, transparent 40%, var(--dark3));
+  }
+  .noticia-featured-body { padding: 25px; }
+  .noticia-cat {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.7rem; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--red); margin-bottom: 10px;
+  }
+  .noticia-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1.5rem; font-weight: 800; color: white;
+    line-height: 1.2; margin-bottom: 10px;
+  }
+  .noticia-excerpt { font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; }
+  .noticia-meta { display: flex; gap: 15px; margin-top: 15px; font-size: 0.8rem; color: var(--text-muted); align-items: center; }
+  .noticia-meta .sep { opacity: 0.3; }
+  .noticias-list { display: flex; flex-direction: column; gap: 15px; }
+  .noticia-mini {
+    background: var(--dark3); border: 1px solid var(--border);
+    border-radius: 6px; padding: 18px;
+    display: flex; gap: 15px; transition: border-color 0.3s; cursor: pointer;
+    align-items: flex-start;
+  }
+  .noticia-mini:hover { border-color: var(--red); }
+  .noticia-mini-icon {
+    width: 44px; height: 44px; background: var(--dark4);
+    border-radius: 4px; display: flex; align-items: center;
+    justify-content: center; font-size: 1.2rem; flex-shrink: 0;
+  }
+  .noticia-mini-content .noticia-cat { margin-bottom: 4px; }
+  .noticia-mini-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1rem; font-weight: 700; color: white; line-height: 1.3;
+  }
+  .noticia-mini-date { font-size: 0.75rem; color: var(--text-muted); margin-top: 5px; }
+
+  /* SOBRE */
+  #sobre { background: var(--dark); }
+  .sobre-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+  .sobre-img-wrap { position: relative; }
+  .sobre-img {
+    background: var(--dark3); border: 1px solid var(--border);
+    border-radius: 10px; height: 400px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 6rem; position: relative; overflow: hidden;
+  }
+  .sobre-img::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 50% 100%, var(--red-glow) 0%, transparent 70%);
+  }
+  .sobre-badge-float {
+    position: absolute; bottom: -20px; right: -20px;
+    background: var(--red); color: white; border-radius: 8px;
+    padding: 20px 25px; text-align: center;
+    box-shadow: 0 10px 30px var(--red-glow);
+  }
+  .sobre-badge-num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 2.5rem; font-weight: 900; line-height: 1;
+  }
+  .sobre-badge-label { font-size: 0.7rem; letter-spacing: 1px; opacity: 0.9; }
+  .sobre-content h3 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 2.2rem; font-weight: 900; color: white;
+    text-transform: uppercase; line-height: 1.1; margin-bottom: 15px;
+  }
+  .sobre-content h3 span { color: var(--red); }
+  .sobre-content p { color: var(--text-muted); line-height: 1.8; margin-bottom: 20px; }
+  .sobre-highlights { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 25px; }
+  .sobre-highlight {
+    background: var(--dark3); border: 1px solid var(--border);
+    border-radius: 6px; padding: 15px;
+  }
+  .sobre-highlight .icon { color: var(--red); font-size: 1.1rem; margin-bottom: 6px; }
+  .sobre-highlight h4 { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; color: white; font-size: 1rem; margin-bottom: 3px; }
+  .sobre-highlight p { font-size: 0.8rem; color: var(--text-muted); margin: 0; line-height: 1.4; }
+
+  /* SOCIAL */
+  #social { background: var(--dark2); }
+  .social-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 40px; }
+  .social-post {
+    background: var(--dark3); border: 1px solid var(--border);
+    border-radius: 8px; overflow: hidden;
+    aspect-ratio: 1; display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    font-size: 3rem; position: relative; cursor: pointer;
+    transition: all 0.3s;
+  }
+  .social-post:hover { border-color: var(--red); transform: scale(1.02); }
+  .social-overlay {
+    position: absolute; inset: 0;
+    background: rgba(212,18,23,0.85);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem; color: white; font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700; letter-spacing: 1px;
+    opacity: 0; transition: opacity 0.3s;
+  }
+  .social-post:hover .social-overlay { opacity: 1; }
+  .social-links { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
+  .social-btn {
+    display: flex; align-items: center; gap: 10px;
+    padding: 12px 25px; border-radius: 4px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1rem; font-weight: 700; letter-spacing: 1px;
+    text-decoration: none; text-transform: uppercase; transition: all 0.3s;
+    border: 1px solid transparent;
+  }
+  .social-btn.instagram { background: linear-gradient(135deg, #E1306C, #833AB4); color: white; }
+  .social-btn.whatsapp { background: #25D366; color: white; }
+  .social-btn.youtube { background: #FF0000; color: white; }
+  .social-btn.facebook { background: #1877F2; color: white; }
+  .social-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.4); }
+
+  /* FOOTER */
+  footer {
+    background: var(--dark2); border-top: 1px solid var(--border);
+    padding: 60px 5% 30px;
+  }
+  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; max-width: 1300px; margin: 0 auto 40px; }
+  .footer-brand p { color: var(--text-muted); line-height: 1.7; margin: 15px 0 20px; font-size: 0.9rem; }
+  .footer-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.8rem; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; color: white; margin-bottom: 15px;
+  }
+  .footer-links { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .footer-links a { color: var(--text-muted); text-decoration: none; font-size: 0.9rem; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--red); }
+  .footer-socials { display: flex; gap: 10px; }
+  .footer-social {
+    width: 36px; height: 36px; background: var(--dark3);
+    border: 1px solid var(--border); border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--text-muted); text-decoration: none;
+    transition: all 0.3s; font-size: 0.9rem;
+  }
+  .footer-social:hover { border-color: var(--red); color: var(--red); background: rgba(212,18,23,0.08); }
+  .footer-bottom {
+    border-top: 1px solid var(--border);
+    padding-top: 25px; max-width: 1300px; margin: 0 auto;
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 10px;
+  }
+  .footer-bottom p { font-size: 0.8rem; color: var(--text-muted); }
+  .footer-bottom .highlight { color: var(--red); font-weight: 600; }
+
+  /* WHATSAPP FLOAT */
+  .whatsapp-float {
+    position: fixed; bottom: 25px; right: 25px; z-index: 999;
+    width: 56px; height: 56px; background: #25D366;
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    color: white; font-size: 1.6rem; text-decoration: none;
+    box-shadow: 0 4px 20px rgba(37,211,102,0.5);
+    animation: bounce-float 2s ease-in-out infinite;
+    transition: transform 0.2s;
+  }
+  .whatsapp-float:hover { transform: scale(1.1); }
+  .whatsapp-float .tooltip {
+    position: absolute; right: 65px;
+    background: var(--dark3); color: white;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.85rem; font-weight: 600; padding: 6px 14px;
+    border-radius: 4px; white-space: nowrap;
+    opacity: 0; transform: translateX(10px); transition: all 0.3s;
+    border: 1px solid var(--border);
+  }
+  .whatsapp-float:hover .tooltip { opacity: 1; transform: translateX(0); }
+
+  /* ANIMATIONS */
+  @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeInRight { from { opacity: 0; transform: translateX(30px); } to { opacity: 1; transform: translateX(0); } }
+  @keyframes pulse-red { 0%,100% { opacity: 0.5; transform: scale(1); } 50% { opacity: 0.8; transform: scale(1.05); } }
+  @keyframes pulse-blue { 0% { opacity: 0.3; } 100% { opacity: 0.6; } }
+  @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+  @keyframes bounce-float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* SUCCESS MESSAGE */
+  .success-msg {
+    display: none; background: rgba(34,197,94,0.1); border: 1px solid #22C55E;
+    border-radius: 6px; padding: 15px; color: #22C55E;
+    font-family: 'Barlow Condensed', sans-serif; font-weight: 600;
+    text-align: center; margin-top: 15px;
+  }
+  .success-msg.show { display: flex; align-items: center; justify-content: center; gap: 8px; }
+
+  /* LOADING */
+  .loading { animation: spin 1s linear infinite; display: inline-block; }
+
+  /* MOBILE */
+  @media (max-width: 900px) {
+    .nav-links { display: none; flex-direction: column; position: absolute; top: 70px; left: 0; right: 0; background: var(--dark2); padding: 20px 5%; border-bottom: 1px solid var(--border); z-index: 999; }
+    .nav-links.open { display: flex; }
+    .hamburger { display: flex; }
+    #hero { min-height: auto; padding-top: 100px; padding-bottom: 60px; }
+    .hero-content { grid-template-columns: 1fr; gap: 30px; padding: 20px 5%; }
+    .hero-right { display: none; }
+    .hero-stats { justify-content: space-around; gap: 10px; }
+    .hero-stat-num { font-size: 2rem; }
+    .orcamento-grid, .nf-wrapper, .sobre-grid, .noticias-grid { grid-template-columns: 1fr; gap: 40px; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    .social-grid { grid-template-columns: repeat(2, 1fr); }
+    .form-row { grid-template-columns: 1fr; }
+    .modelos-grid { grid-template-columns: 1fr; }
+    section { padding: 60px 5%; }
+    .hero-title { font-size: 3rem; }
+    .sobre-badge-float { right: 0; bottom: -15px; }
+    .nf-total .amount { font-size: 1.4rem; }
+    .footer-grid { grid-template-columns: 1fr; gap: 30px; }
+    .social-links { flex-direction: column; align-items: center; }
+  }
+
+  /* SCROLL REVEAL */
+  .reveal { opacity: 0; transform: translateY(25px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* HAMBURGER ACTIVE */
+  .hamburger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .hamburger.active span:nth-child(2) { opacity: 0; }
+  .hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+</style>
+</head>
+<body>
+
+<!-- WHATSAPP FLOAT -->
+<a href="https://wa.me/5562981443105" class="whatsapp-float" target="_blank">
+  <i class="fab fa-whatsapp"></i>
+  <span class="tooltip">Fale agora no WhatsApp!</span>
+</a>
+
+<!-- NAVBAR -->
+<nav id="navbar">
+  <a href="#hero" class="nav-logo">
+    POTÊNCIA<span>GYN</span>
+    <span class="nav-logo-badge">SCANIA</span>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#servicos">Serviços</a></li>
+    <li><a href="#modelos">Modelos</a></li>
+    <li><a href="#nota-fiscal">Nota Fiscal</a></li>
+    <li><a href="#noticias">Novidades</a></li>
+    <li><a href="#sobre">Sobre</a></li>
+    <li><a href="#social">Redes Sociais</a></li>
+    <li><a href="#orcamento" class="nav-cta">Orçamento</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg">
+    <div class="hero-grid"></div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-left">
+      <div class="hero-badge"><span class="dot"></span> Caminhões e Ônibus Scania</div>
+      <h1 class="hero-title">
+        POTÊNCIA<br>
+        <span class="red">GYN</span><br>
+        <span class="outline">PERFORMANCE</span>
+      </h1>
+      <p class="hero-subtitle">
+        Oficina especializada em caminhões e ônibus da Scania. Atendimento com qualidade, transparência e nota fiscal em todos os serviços.
+      </p>
+      <div class="hero-actions">
+        <a href="#orcamento" class="btn-primary"><i class="fas fa-file-invoice"></i> Solicitar Orçamento</a>
+        <a href="#servicos" class="btn-secondary"><i class="fas fa-tools"></i> Ver Serviços</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-num">500<span>+</span></div>
+          <div class="hero-stat-label">Atendimentos</div>
+        </div>
+        <div class="hero-divider"></div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">8<span>+</span></div>
+          <div class="hero-stat-label">Anos de Experiência</div>
+        </div>
+        <div class="hero-divider"></div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">100<span>%</span></div>
+          <div class="hero-stat-label">Nota Fiscal</div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-card-main">
+        <div class="hero-truck-visual">
+          <span class="truck-icon-large">🚛</span>
+        </div>
+        <div class="hero-card-info">
+          <h3>Caminhões e Ônibus Scania</h3>
+          <p>Especialização exclusiva • Linha 2022–2026</p>
+        </div>
+      </div>
+      <div class="hero-cards-mini">
+        <div class="mini-card">
+          <div class="mini-card-icon">🔧</div>
+          <div class="mini-card-title">Manutenção</div>
+          <div class="mini-card-sub">Preventiva e corretiva</div>
+        </div>
+        <div class="mini-card">
+          <div class="mini-card-icon">⚡</div>
+          <div class="mini-card-title">Diagnóstico</div>
+          <div class="mini-card-sub">Sistema eletrônico</div>
+        </div>
+        <div class="mini-card">
+          <div class="mini-card-icon">📄</div>
+          <div class="mini-card-title">Nota Fiscal</div>
+          <div class="mini-card-sub">100% garantido</div>
+        </div>
+        <div class="mini-card">
+          <div class="mini-card-icon">🛡️</div>
+          <div class="mini-card-title">Garantia</div>
+          <div class="mini-card-sub">Em todos os serviços</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVIÇOS -->
+<section id="servicos">
+  <div class="max-container">
+    <div class="section-header reveal">
+      <div class="section-tag">// O que fazemos</div>
+      <h2 class="section-title">NOSSOS <span class="outline">SERVIÇOS</span></h2>
+      <p class="section-desc">Serviços especializados para caminhões e ônibus da Scania. Equipe técnica qualificada para cada tipo de atendimento.</p>
+    </div>
+      <div class="services-grid">
+        <div class="service-card reveal">
+          <div class="service-card-num">01</div>
+          <div class="service-icon"><i class="fas fa-cog"></i></div>
+          <h3 class="service-title">Câmbio</h3>
+          <p class="service-desc">Reparo e revisão completa de câmbio manual e automático (Opticruise). Diagnóstico preciso, troca de componentes e ajuste fino para restaurar o desempenho original do seu Scania.</p>
+          <a href="#orcamento" class="service-link">Solicitar <i class="fas fa-arrow-right"></i></a>
+        </div>
+        <div class="service-card reveal">
+          <div class="service-card-num">02</div>
+          <div class="service-icon"><i class="fas fa-bolt"></i></div>
+          <h3 class="service-title">Elétrica</h3>
+          <p class="service-desc">Diagnóstico e reparo completo do sistema elétrico e eletrônico. Módulos, sensores, chicotes e alternadores. Identificamos qualquer falha com equipamentos especializados Scania.</p>
+          <a href="#orcamento" class="service-link">Solicitar <i class="fas fa-arrow-right"></i></a>
+        </div>
+        <div class="service-card reveal">
+          <div class="service-card-num">03</div>
+          <div class="service-icon"><i class="fas fa-clipboard-check"></i></div>
+          <h3 class="service-title">Revisão</h3>
+          <p class="service-desc">Revisão preventiva completa conforme especificação Scania. Troca de óleo, filtros, fluidos e verificação geral do veículo. Mantenha seu caminhão ou ônibus sempre em dia.</p>
+          <a href="#orcamento" class="service-link">Solicitar <i class="fas fa-arrow-right"></i></a>
+        </div>
+        <div class="service-card reveal">
+          <div class="service-card-num">04</div>
+          <div class="service-icon"><i class="fas fa-laptop-code"></i></div>
+          <h3 class="service-title">Programação</h3>
+          <p class="service-desc">Programação e calibração de módulos eletrônicos, injeção e centralinas da Scania. Atualização de software, reset de parâmetros e configuração de novos componentes.</p>
+          <a href="#orcamento" class="service-link">Solicitar <i class="fas fa-arrow-right"></i></a>
+        </div>
+        <div class="service-card reveal">
+          <div class="service-card-num">05</div>
+          <div class="service-icon"><i class="fas fa-circle-notch"></i></div>
+          <h3 class="service-title">Freios</h3>
+          <p class="service-desc">Manutenção completa do sistema de freios EBS/ABS. Regulagem, troca de lonas, discos, tambores e cilindros. Segurança garantida para sua operação na estrada.</p>
+          <a href="#orcamento" class="service-link">Solicitar <i class="fas fa-arrow-right"></i></a>
+        </div>
+        <div class="service-card reveal">
+          <div class="service-card-num">06</div>
+          <div class="service-icon"><i class="fas fa-wrench"></i></div>
+          <h3 class="service-title">Motor</h3>
+          <p class="service-desc">Reparo e revisão de motores Scania DC9, DC13 e DC16. Retífica, troca de vedações, bronzinas e retentores. Trabalho especializado com peças originais e garantia documentada.</p>
+          <a href="#orcamento" class="service-link">Solicitar <i class="fas fa-arrow-right"></i></a>
+        </div>
+      </div>
+  </div>
+</section>
+
+<!-- MODELOS ATENDIDOS -->
+<section id="modelos">
+  <div class="max-container">
+    <div class="section-header reveal">
+      <div class="section-tag">// Especialização</div>
+      <h2 class="section-title">MODELOS <span class="outline">ATENDIDOS</span></h2>
+      <p class="section-desc">Especialistas em caminhões e ônibus da Scania. Conheça os modelos que atendemos, todos da linha 2022 a 2026.</p>
+    </div>
+    <div class="modelos-grid">
+      <div class="modelo-card reveal">
+        <div class="modelo-visual">🚛<span class="modelo-badge">CAMINHÃO</span></div>
+        <div class="modelo-body">
+          <div class="modelo-name">Scania R 500 Super</div>
+          <div class="modelo-spec">Motor DC13 • 500 cv • Opticruise</div>
+          <div class="modelo-tags">
+            <span class="modelo-tag">6x2</span><span class="modelo-tag">6x4</span>
+            <span class="modelo-tag">Highline</span><span class="modelo-tag">Topline</span>
+          </div>
+          <div class="modelo-footer">
+            <span class="modelo-year">2022 – 2026</span>
+            <a href="#orcamento" class="modelo-btn">Orçamento</a>
+          </div>
+        </div>
+      </div>
+      <div class="modelo-card reveal">
+        <div class="modelo-visual">🚛<span class="modelo-badge">CAMINHÃO</span></div>
+        <div class="modelo-body">
+          <div class="modelo-name">Scania G 450 XT</div>
+          <div class="modelo-spec">Motor DC13 • 450 cv • Opticruise</div>
+          <div class="modelo-tags">
+            <span class="modelo-tag">8x4</span><span class="modelo-tag">Off Road</span>
+            <span class="modelo-tag">Construção</span>
+          </div>
+          <div class="modelo-footer">
+            <span class="modelo-year">2022 – 2026</span>
+            <a href="#orcamento" class="modelo-btn">Orçamento</a>
+          </div>
+        </div>
+      </div>
+      <div class="modelo-card reveal">
+        <div class="modelo-visual">🚌<span class="modelo-badge">ÔNIBUS</span></div>
+        <div class="modelo-body">
+          <div class="modelo-name">Scania K 360 Super</div>
+          <div class="modelo-spec">Motor DC09 • 360 cv • Automático</div>
+          <div class="modelo-tags">
+            <span class="modelo-tag">Urbano</span><span class="modelo-tag">Rodoviário</span>
+            <span class="modelo-tag">K-Series</span>
+          </div>
+          <div class="modelo-footer">
+            <span class="modelo-year">2022 – 2026</span>
+            <a href="#orcamento" class="modelo-btn">Orçamento</a>
+          </div>
+        </div>
+      </div>
+      <div class="modelo-card reveal">
+        <div class="modelo-visual">🚛<span class="modelo-badge">PESADO</span></div>
+        <div class="modelo-body">
+          <div class="modelo-name">Scania P 320 Super</div>
+          <div class="modelo-spec">Motor DC09 • 320 cv • Opticruise</div>
+          <div class="modelo-tags">
+            <span class="modelo-tag">4x2</span><span class="modelo-tag">Entrega</span>
+            <span class="modelo-tag">Distribuição</span>
+          </div>
+          <div class="modelo-footer">
+            <span class="modelo-year">2022 – 2026</span>
+            <a href="#orcamento" class="modelo-btn">Orçamento</a>
+          </div>
+        </div>
+      </div>
+      <div class="modelo-card reveal">
+        <div class="modelo-visual">🚛<span class="modelo-badge">SUPER</span></div>
+        <div class="modelo-body">
+          <div class="modelo-name">Scania R 650 Super V8</div>
+          <div class="modelo-spec">Motor DC16 V8 • 650 cv • Opticruise</div>
+          <div class="modelo-tags">
+            <span class="modelo-tag">6x4</span><span class="modelo-tag">V8</span>
+            <span class="modelo-tag">Topline</span>
+          </div>
+          <div class="modelo-footer">
+            <span class="modelo-year">2022 – 2026</span>
+            <a href="#orcamento" class="modelo-btn">Orçamento</a>
+          </div>
+        </div>
+      </div>
+      <div class="modelo-card reveal">
+        <div class="modelo-visual">🚌<span class="modelo-badge">ÔNIBUS</span></div>
+        <div class="modelo-body">
+          <div class="modelo-name">Scania F 280 Super</div>
+          <div class="modelo-spec">Motor DC07 • 280 cv • Automático</div>
+          <div class="modelo-tags">
+            <span class="modelo-tag">Urbano</span><span class="modelo-tag">Elétrico Híbrido</span>
+          </div>
+          <div class="modelo-footer">
+            <span class="modelo-year">2022 – 2026</span>
+            <a href="#orcamento" class="modelo-btn">Orçamento</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NOTA FISCAL -->
+<section id="nota-fiscal">
+  <div class="max-container">
+    <div class="nf-wrapper">
+      <div class="nf-visual reveal">
+        <div class="nf-header">
+          <div class="nf-logo-box">POTÊNCIA<span>GYN</span></div>
+          <div class="nf-stamp"><i class="fas fa-check-circle"></i> NF-e Emitida</div>
+        </div>
+        <div class="nf-rows">
+          <div class="nf-row">
+            <span class="item">Mão de obra – Diagnóstico</span>
+            <span class="val">R$ 280,00</span>
+          </div>
+          <div class="nf-row">
+            <span class="item">Filtro de óleo Scania original</span>
+            <span class="val">R$ 145,00</span>
+          </div>
+          <div class="nf-row">
+            <span class="item">Óleo Motor 15W40 (25L)</span>
+            <span class="val">R$ 420,00</span>
+          </div>
+          <div class="nf-row">
+            <span class="item">Mão de obra – Troca de óleo</span>
+            <span class="val">R$ 180,00</span>
+          </div>
+          <div class="nf-row">
+            <span class="item">Filtro de combustível</span>
+            <span class="val">R$ 95,00</span>
+          </div>
+        </div>
+        <div class="nf-total">
+          <span class="label">TOTAL COM NF</span>
+          <span class="amount">R$ 1.120,00</span>
+        </div>
+      </div>
+      <div class="nf-info reveal">
+        <div class="section-tag">// Transparência total</div>
+        <h3>EMITIMOS<br><span style="color:var(--red)">NOTA FISCAL</span><br>EM TODOS OS SERVIÇOS</h3>
+        <p>Trabalhamos com total transparência. Todo serviço realizado na Potência GYN é documentado com Nota Fiscal Eletrônica, garantindo sua segurança jurídica e fiscal.</p>
+        <div class="nf-features">
+          <div class="nf-feature">
+            <i class="fas fa-file-invoice nf-feature icon"></i>
+            <div>
+              <h4>NF-e Eletrônica</h4>
+              <p>Emitimos Nota Fiscal de Serviços eletrônica para todos os atendimentos, peças e mão de obra.</p>
+            </div>
+          </div>
+          <div class="nf-feature">
+            <i class="fas fa-shield-alt nf-feature icon"></i>
+            <div>
+              <h4>Garantia Documentada</h4>
+              <p>Todos os serviços possuem garantia registrada na nota fiscal. Sua segurança é nossa prioridade.</p>
+            </div>
+          </div>
+          <div class="nf-feature">
+            <i class="fas fa-barcode nf-feature icon"></i>
+            <div>
+              <h4>Peças Rastreáveis</h4>
+              <p>Todas as peças substituídas são documentadas com número de série e procedência na nota.</p>
+            </div>
+          </div>
+          <div class="nf-feature">
+            <i class="fas fa-building nf-feature icon"></i>
+            <div>
+              <h4>Pessoa Jurídica</h4>
+              <p>Aceitos para PJ com CNPJ. Emissão facilitada para frota, transportadoras e freteiros.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ORÇAMENTO -->
+<section id="orcamento">
+  <div class="max-container">
+    <div class="orcamento-grid">
+      <div class="orcamento-info reveal">
+        <div class="section-tag">// Atendimento rápido</div>
+        <h3>SOLICITE SEU<br>ORÇAMENTO<br><span style="color:var(--red)">GRÁTIS</span></h3>
+        <p>Preencha o formulário e nossa equipe retornará em até 2 horas úteis com um orçamento detalhado e transparente para o seu Scania.</p>
+        <ul class="orcamento-features">
+          <li><span class="check"><i class="fas fa-check"></i></span> Orçamento sem compromisso</li>
+          <li><span class="check"><i class="fas fa-check"></i></span> Resposta em até 2 horas úteis</li>
+          <li><span class="check"><i class="fas fa-check"></i></span> Peças originais Scania</li>
+          <li><span class="check"><i class="fas fa-check"></i></span> Garantia em todos os serviços</li>
+          <li><span class="check"><i class="fas fa-check"></i></span> Nota Fiscal em tudo</li>
+          <li><span class="check"><i class="fas fa-check"></i></span> Técnicos certificados Scania</li>
+        </ul>
+        <div class="contact-info-cards">
+          <a href="tel:+5562981443105" class="contact-info-card" style="color:inherit;text-decoration:none">
+            <div class="icon"><i class="fas fa-phone"></i></div>
+            <div><div class="label">Telefone / WhatsApp</div><div class="value">(62) 9 8144-3105</div></div>
+          </a>
+          <a href="/cdn-cgi/l/email-protection#e5868a8b9184918aa5958a91808b868c84829c8bcb868a88cb8797" class="contact-info-card" style="color:inherit;text-decoration:none">
+            <div class="icon"><i class="fas fa-envelope"></i></div>
+            <div><div class="label">E-mail</div><div class="value"><span class="__cf_email__" data-cfemail="3b5854554f5a4f547b4b544f5e5558525a5c425515585456155949">[email&#160;protected]</span></div></div>
+          </a>
+          <div class="contact-info-card">
+            <div class="icon"><i class="fas fa-map-marker-alt"></i></div>
+            <div><div class="label">Endereço</div><div class="value">Goiânia – GO</div></div>
+          </div>
+          <div class="contact-info-card">
+            <div class="icon"><i class="fas fa-clock"></i></div>
+            <div><div class="label">Horário de Atendimento</div><div class="value">Seg–Sex: 8h às 18h | Sáb: 8h–13h</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="form-card reveal">
+        <h3 class="form-title">Solicitar Orçamento Online</h3>
+        <form id="orcamentoForm" onsubmit="submitForm(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Nome Completo *</label>
+              <input type="text" placeholder="Seu nome" required id="fname">
+            </div>
+            <div class="form-group">
+              <label>WhatsApp *</label>
+              <input type="tel" placeholder="(62) 9 8144-3105" required id="fphone">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>E-mail</label>
+            <input type="email" placeholder="seu@email.com" id="femail">
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Modelo do Veículo *</label>
+              <select required id="fmodel">
+                <option value="">Selecione</option>
+                <option>Scania R 500 Super</option>
+                <option>Scania R 650 Super V8</option>
+                <option>Scania G 450 XT</option>
+                <option>Scania P 320 Super</option>
+                <option>Scania K 360 Super (Ônibus)</option>
+                <option>Scania F 280 Super (Ônibus)</option>
+                <option>Outro modelo Scania</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Ano do Veículo *</label>
+              <select required id="fyear">
+                <option value="">Selecione</option>
+                <option>2026</option><option>2025</option><option>2024</option>
+                <option>2023</option><option>2022</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Tipo de Serviço *</label>
+            <select required id="fservice">
+              <option value="">Selecione o serviço</option>
+              <option>Câmbio</option>
+              <option>Elétrica</option>
+              <option>Revisão</option>
+              <option>Programação</option>
+              <option>Freios</option>
+              <option>Motor</option>
+              <option>Outro serviço</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Descreva o problema ou serviço *</label>
+            <textarea placeholder="Descreva detalhadamente o problema que está ocorrendo ou o serviço que precisa..." required id="fmessage"></textarea>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Placa do Veículo</label>
+              <input type="text" placeholder="ABC-1234" id="fplate">
+            </div>
+            <div class="form-group">
+              <label>Tipo de Pessoa</label>
+              <select id="fperson">
+                <option>Pessoa Física</option>
+                <option>Pessoa Jurídica (CNPJ)</option>
+              </select>
+            </div>
+          </div>
+          <button type="submit" class="form-submit" id="submitBtn">
+            <i class="fas fa-paper-plane"></i> ENVIAR SOLICITAÇÃO DE ORÇAMENTO
+          </button>
+          <div class="success-msg" id="successMsg">
+            <i class="fas fa-check-circle"></i> Orçamento enviado! Retornaremos em até 2 horas úteis.
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NOTICIAS -->
+<section id="noticias">
+  <div class="max-container">
+    <div class="section-header reveal">
+      <div class="section-tag">// Fique por dentro</div>
+      <h2 class="section-title">NOVIDADES <span class="outline">& EVENTOS</span></h2>
+      <p class="section-desc">Notícias do mundo Scania, dicas de manutenção e novidades da Potência GYN.</p>
+    </div>
+    <div class="noticias-grid">
+      <div class="noticia-featured reveal">
+        <div class="noticia-featured-img">🚛</div>
+        <div class="noticia-featured-body">
+          <div class="noticia-cat">🔧 Manutenção</div>
+          <h3 class="noticia-title">Scania 2025: Conheça as novidades e tecnologias dos novos modelos de caminhão e ônibus</h3>
+          <p class="noticia-excerpt">Os novos modelos Scania 2025 chegaram com atualizações importantes em eletrônica, câmbio e motor. Saiba o que mudou e como isso impacta a manutenção do seu veículo...</p>
+          <div class="noticia-meta">
+            <span>Potência GYN</span>
+            <span class="sep">•</span>
+            <span>Fevereiro 2026</span>
+            <span class="sep">•</span>
+            <span>5 min de leitura</span>
+          </div>
+        </div>
+      </div>
+      <div class="noticias-list">
+        <div class="noticia-mini reveal">
+          <div class="noticia-mini-icon">⚡</div>
+          <div class="noticia-mini-content">
+            <div class="noticia-cat">Dica Técnica</div>
+            <div class="noticia-mini-title">Como identificar falha no Opticruise sem ir à oficina</div>
+            <div class="noticia-mini-date">Janeiro 2026</div>
+          </div>
+        </div>
+        <div class="noticia-mini reveal">
+          <div class="noticia-mini-icon">🛠️</div>
+          <div class="noticia-mini-content">
+            <div class="noticia-cat">Serviço</div>
+            <div class="noticia-mini-title">Revisão dos 300h: Por que não pode atrasar no Scania V8?</div>
+            <div class="noticia-mini-date">Janeiro 2026</div>
+          </div>
+        </div>
+        <div class="noticia-mini reveal">
+          <div class="noticia-mini-icon">📊</div>
+          <div class="noticia-mini-content">
+            <div class="noticia-cat">Economia</div>
+            <div class="noticia-mini-title">Manutenção preventiva pode reduzir até 30% dos custos operacionais</div>
+            <div class="noticia-mini-date">Dezembro 2025</div>
+          </div>
+        </div>
+        <div class="noticia-mini reveal">
+          <div class="noticia-mini-icon">🏆</div>
+          <div class="noticia-mini-content">
+            <div class="noticia-cat">Potência GYN</div>
+            <div class="noticia-mini-title">Ampliamos nossa estrutura: nova área de diagnóstico eletrônico</div>
+            <div class="noticia-mini-date">Novembro 2025</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOBRE -->
+<section id="sobre">
+  <div class="max-container">
+    <div class="sobre-grid">
+      <div class="sobre-img-wrap reveal">
+        <div class="sobre-img">🔧</div>
+        <div class="sobre-badge-float">
+          <div class="sobre-badge-num">8+</div>
+          <div class="sobre-badge-label">Anos de Expertise</div>
+        </div>
+      </div>
+      <div class="sobre-content reveal">
+        <div class="section-tag">// Quem somos</div>
+        <h3>SOBRE A <span>POTÊNCIA GYN</span></h3>
+        <p>Somos uma oficina especializada em caminhões e ônibus da Scania, atendendo modelos de 2022 a 2026. Nossa equipe é formada por técnicos qualificados com anos de experiência e profundo conhecimento nos veículos da marca.</p>
+        <p>Localizada em Goiânia, a Potência GYN se destaca pela transparência, qualidade e agilidade no atendimento. Trabalhamos apenas com peças originais e emitimos nota fiscal em 100% dos serviços.</p>
+        <div class="sobre-highlights">
+          <div class="sobre-highlight">
+            <div class="icon"><i class="fas fa-certificate"></i></div>
+            <h4>Técnicos Certificados</h4>
+            <p>Equipe treinada e certificada pelo sistema Scania</p>
+          </div>
+          <div class="sobre-highlight">
+            <div class="icon"><i class="fas fa-tools"></i></div>
+            <h4>Ferramental Oficial</h4>
+            <p>Equipamentos homologados pela Scania para diagnóstico</p>
+          </div>
+          <div class="sobre-highlight">
+            <div class="icon"><i class="fas fa-box"></i></div>
+            <h4>Peças Originais</h4>
+            <p>Trabalhamos apenas com peças genuínas Scania</p>
+          </div>
+          <div class="sobre-highlight">
+            <div class="icon"><i class="fas fa-award"></i></div>
+            <h4>Garantia Total</h4>
+            <p>Garantia documentada em todos os serviços executados</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOCIAL -->
+<section id="social">
+  <div class="max-container">
+    <div class="section-header reveal">
+      <div class="section-tag">// Siga a gente</div>
+      <h2 class="section-title">REDES <span class="outline">SOCIAIS</span></h2>
+      <p class="section-desc">Acompanhe o dia a dia da oficina, dicas de manutenção e novidades do mundo Scania nas nossas redes.</p>
+    </div>
+    <div class="social-grid reveal">
+      <div class="social-post" style="background:linear-gradient(135deg,#1A0510,#100A1A)">🚛
+        <div class="social-overlay"><i class="fab fa-instagram"></i>&nbsp; Ver Post</div>
+      </div>
+      <div class="social-post" style="background:linear-gradient(135deg,#100510,#0A1520)">🔧
+        <div class="social-overlay"><i class="fab fa-instagram"></i>&nbsp; Ver Post</div>
+      </div>
+      <div class="social-post" style="background:linear-gradient(135deg,#10080A,#0A0A1A)">⚡
+        <div class="social-overlay"><i class="fab fa-instagram"></i>&nbsp; Ver Post</div>
+      </div>
+      <div class="social-post" style="background:linear-gradient(135deg,#0A0A10,#1A0A0A)">🛠️
+        <div class="social-overlay"><i class="fab fa-instagram"></i>&nbsp; Ver Post</div>
+      </div>
+    </div>
+    <div class="social-links reveal">
+      <a href="https://www.instagram.com/potenciagyn?igsh=MThnY2JvanZvY285MA==" class="social-btn instagram" target="_blank"><i class="fab fa-instagram"></i> Instagram</a>
+      <a href="https://wa.me/5562981443105" class="social-btn whatsapp" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+      <a href="#" class="social-btn youtube"><i class="fab fa-youtube"></i> YouTube</a>
+      <a href="#" class="social-btn facebook"><i class="fab fa-facebook"></i> Facebook</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="#hero" class="nav-logo" style="font-size:1.4rem">POTÊNCIA<span>GYN</span></a>
+      <p>Oficina especializada em caminhões e ônibus da Scania 2022–2026. Qualidade, transparência e nota fiscal em todos os serviços.</p>
+      <div class="footer-socials">
+        <a href="https://www.instagram.com/potenciagyn?igsh=MThnY2JvanZvY285MA==" class="footer-social" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="https://wa.me/5562981443105" class="footer-social" target="_blank"><i class="fab fa-whatsapp"></i></a>
+        <a href="#" class="footer-social"><i class="fab fa-facebook"></i></a>
+        <a href="#" class="footer-social"><i class="fab fa-youtube"></i></a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-title">Serviços</div>
+      <ul class="footer-links">
+        <li><a href="#servicos">Câmbio</a></li>
+        <li><a href="#servicos">Elétrica</a></li>
+        <li><a href="#servicos">Revisão</a></li>
+        <li><a href="#servicos">Programação</a></li>
+        <li><a href="#servicos">Freios</a></li>
+        <li><a href="#servicos">Motor</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-title">Modelos</div>
+      <ul class="footer-links">
+        <li><a href="#modelos">Scania R 500 Super</a></li>
+        <li><a href="#modelos">Scania R 650 V8</a></li>
+        <li><a href="#modelos">Scania G 450 XT</a></li>
+        <li><a href="#modelos">Scania P 320 Super</a></li>
+        <li><a href="#modelos">Scania K 360 (Ônibus)</a></li>
+        <li><a href="#modelos">Scania F 280 (Ônibus)</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-title">Empresa</div>
+      <ul class="footer-links">
+        <li><a href="#sobre">Sobre nós</a></li>
+        <li><a href="#nota-fiscal">Nota Fiscal</a></li>
+        <li><a href="#noticias">Notícias</a></li>
+        <li><a href="#orcamento">Solicitar Orçamento</a></li>
+        <li><a href="#social">Redes Sociais</a></li>
+        <li><a href="/cdn-cgi/l/email-protection#4625292832273229063629322328252f27213f286825292b682434">Contato</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 <span class="highlight">Potência GYN</span>. Todos os direitos reservados.</p>
+    <p>CNPJ: 48.124.233/0001-22 • Goiânia – GO</p>
+    <p>Desenvolvido com ❤️ para a <span class="highlight">Potência GYN</span></p>
+  </div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  // NAVBAR SCROLL
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+  });
+
+  // HAMBURGER
+  function toggleMenu() {
+    const links = document.getElementById('navLinks');
+    const ham = document.getElementById('hamburger');
+    links.classList.toggle('open');
+    ham.classList.toggle('active');
+  }
+  document.querySelectorAll('.nav-links a').forEach(a => a.addEventListener('click', () => {
+    document.getElementById('navLinks').classList.remove('open');
+    document.getElementById('hamburger').classList.remove('active');
+  }));
+
+  // SCROLL REVEAL
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.05, rootMargin: '0px 0px 0px 0px' });
+  const revealEls = document.querySelectorAll('.reveal');
+  
+  // Fallback: reveal all if IntersectionObserver not available
+  if (!('IntersectionObserver' in window)) {
+    revealEls.forEach(el => el.classList.add('visible'));
+  } else {
+    revealEls.forEach(el => observer.observe(el));
+  }
+  
+  // Also trigger check on load for elements already visible
+  setTimeout(() => {
+    revealEls.forEach(el => {
+      const rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight && rect.bottom >= 0) {
+        el.classList.add('visible');
+      }
+    });
+  }, 100);
+
+  // FORM SUBMIT
+  function submitForm(e) {
+    e.preventDefault();
+    const btn = document.getElementById('submitBtn');
+    const msg = document.getElementById('successMsg');
+    
+    // Validate
+    const name = document.getElementById('fname').value.trim();
+    const phone = document.getElementById('fphone').value.trim();
+    const model = document.getElementById('fmodel').value;
+    const year = document.getElementById('fyear').value;
+    const service = document.getElementById('fservice').value;
+    const message = document.getElementById('fmessage').value.trim();
+    
+    if(!name || !phone || !model || !year || !service || !message) {
+      alert('Por favor, preencha todos os campos obrigatórios (*).'); return;
+    }
+
+    btn.innerHTML = '<span class="loading">↻</span> ENVIANDO...';
+    btn.disabled = true;
+
+    // Simulate send
+    setTimeout(() => {
+      btn.innerHTML = '<i class="fas fa-check"></i> ENVIADO COM SUCESSO!';
+      btn.style.background = '#22C55E';
+      msg.classList.add('show');
+      
+      // WhatsApp redirect
+      const waMsg = `Olá! Sou ${name}, gostaria de um orçamento.%0A🚛 Veículo: ${model} (${year})%0A🔧 Serviço: ${service}%0A📋 Descrição: ${message}%0A📞 Contato: ${phone}`;
+      setTimeout(() => {
+        window.open(`https://wa.me/5562981443105?text=${waMsg}`, '_blank');
+      }, 1000);
+
+      setTimeout(() => {
+        btn.innerHTML = '<i class="fas fa-paper-plane"></i> ENVIAR SOLICITAÇÃO DE ORÇAMENTO';
+        btn.style.background = '';
+        btn.disabled = false;
+        msg.classList.remove('show');
+        document.getElementById('orcamentoForm').reset();
+      }, 5000);
+    }, 2000);
+  }
+
+  // SMOOTH ACTIVE NAV
+  const sections = document.querySelectorAll('section[id]');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => { if(window.scrollY >= s.offsetTop - 100) current = s.getAttribute('id'); });
+    document.querySelectorAll('.nav-links a').forEach(a => {
+      a
