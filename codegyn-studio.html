@@ -1,0 +1,1636 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Code Gyn Studio – Especializado em Informática</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cyan: #00f5ff;
+    --cyan2: #00c8e0;
+    --blue: #0a1628;
+    --blue2: #0d1f3c;
+    --blue3: #061020;
+    --accent: #00aaff;
+    --glow: 0 0 20px #00f5ff88, 0 0 40px #00f5ff44;
+    --glow2: 0 0 10px #00f5ff66;
+    --white: #e8f4ff;
+    --gray: #7ab3cc;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--blue3);
+    color: var(--white);
+    font-family: 'Rajdhani', sans-serif;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* CUSTOM CURSOR */
+  .cursor {
+    position: fixed; width: 12px; height: 12px;
+    background: var(--cyan); border-radius: 50%;
+    pointer-events: none; z-index: 9999;
+    transform: translate(-50%,-50%);
+    transition: transform .1s, box-shadow .2s;
+    box-shadow: var(--glow);
+  }
+  .cursor-ring {
+    position: fixed; width: 36px; height: 36px;
+    border: 1px solid var(--cyan); border-radius: 50%;
+    pointer-events: none; z-index: 9998;
+    transform: translate(-50%,-50%);
+    transition: all .15s ease;
+    opacity: 0.6;
+  }
+
+  /* PARTICLES */
+  #particles {
+    position: fixed; top:0; left:0; width:100%; height:100%;
+    pointer-events: none; z-index: 0;
+    overflow: hidden;
+  }
+  .particle {
+    position: absolute;
+    width: 2px; height: 2px;
+    background: var(--cyan);
+    border-radius: 50%;
+    animation: floatParticle linear infinite;
+    opacity: 0;
+  }
+  @keyframes floatParticle {
+    0% { transform: translateY(100vh) translateX(0); opacity:0; }
+    10% { opacity: 0.7; }
+    90% { opacity: 0.3; }
+    100% { transform: translateY(-10vh) translateX(60px); opacity:0; }
+  }
+
+  /* GRID BACKGROUND */
+  body::before {
+    content:'';
+    position: fixed; top:0; left:0; width:100%; height:100%;
+    background-image:
+      linear-gradient(rgba(0,245,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,245,255,0.03) 1px, transparent 1px);
+    background-size: 50px 50px;
+    pointer-events: none; z-index: 0;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top:0; left:0; right:0; z-index: 1000;
+    background: rgba(6,16,32,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(0,245,255,0.15);
+    padding: 0 5%;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 70px;
+  }
+  .nav-logo {
+    display: flex; align-items: center; gap: 12px;
+    font-family: 'Orbitron', monospace;
+    font-size: 1.1rem; font-weight: 700;
+    color: var(--cyan);
+    text-shadow: var(--glow2);
+  }
+  .nav-logo img {
+    height: 48px; width: 48px; object-fit: contain;
+    filter: drop-shadow(0 0 8px #00f5ff88);
+  }
+  .nav-links {
+    display: flex; gap: 2rem; list-style: none;
+  }
+  .nav-links a {
+    color: var(--gray); text-decoration: none;
+    font-size: 0.85rem; font-weight: 600; letter-spacing: 2px;
+    text-transform: uppercase;
+    transition: color .3s, text-shadow .3s;
+    font-family: 'Orbitron', monospace;
+  }
+  .nav-links a:hover { color: var(--cyan); text-shadow: var(--glow2); }
+
+  .nav-cta {
+    background: transparent;
+    border: 1px solid var(--cyan);
+    color: var(--cyan);
+    padding: 8px 20px;
+    font-family: 'Orbitron', monospace;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all .3s;
+    clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+  }
+  .nav-cta:hover {
+    background: var(--cyan);
+    color: var(--blue3);
+    box-shadow: var(--glow);
+  }
+
+  /* HERO */
+  #hero {
+    position: relative; z-index: 1;
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center;
+    padding: 120px 5% 80px;
+    overflow: hidden;
+  }
+
+  .hero-glow-orb {
+    position: absolute;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(0,245,255,0.08) 0%, transparent 70%);
+    border-radius: 50%;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    animation: pulseOrb 4s ease-in-out infinite;
+    pointer-events: none;
+  }
+  @keyframes pulseOrb {
+    0%,100% { transform: translate(-50%,-50%) scale(1); opacity:.6; }
+    50% { transform: translate(-50%,-50%) scale(1.15); opacity:1; }
+  }
+
+  .hero-logo-3d {
+    position: relative;
+    margin-bottom: 2rem;
+    animation: float3d 6s ease-in-out infinite;
+  }
+  .hero-logo-3d img {
+    width: 200px; height: 200px; object-fit: contain;
+    filter: drop-shadow(0 0 30px #00f5ffaa) drop-shadow(0 0 60px #00aaff66);
+  }
+  @keyframes float3d {
+    0%,100% { transform: translateY(0) rotateY(0deg); }
+    25% { transform: translateY(-15px) rotateY(5deg); }
+    75% { transform: translateY(-8px) rotateY(-5deg); }
+  }
+
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    border: 1px solid rgba(0,245,255,0.3);
+    background: rgba(0,245,255,0.05);
+    padding: 6px 16px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--cyan);
+    letter-spacing: 3px;
+    margin-bottom: 1.5rem;
+    clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+  }
+  .hero-badge::before {
+    content:''; width:6px; height:6px;
+    background: var(--cyan); border-radius:50%;
+    animation: blink 1.5s infinite;
+  }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+  .hero-title {
+    font-family: 'Orbitron', monospace;
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    font-weight: 900;
+    line-height: 1.1;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(135deg, #ffffff 0%, var(--cyan) 50%, var(--accent) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: none;
+    filter: drop-shadow(0 0 30px #00f5ff88);
+  }
+
+  .hero-sub {
+    font-family: 'Orbitron', monospace;
+    font-size: clamp(1rem, 2vw, 1.4rem);
+    color: var(--cyan2);
+    letter-spacing: 4px;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-desc {
+    max-width: 650px;
+    font-size: 1.15rem;
+    color: var(--gray);
+    line-height: 1.7;
+    margin-bottom: 2.5rem;
+    font-weight: 400;
+  }
+
+  .hero-btns {
+    display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--cyan), var(--accent));
+    color: var(--blue3);
+    border: none;
+    padding: 14px 36px;
+    font-family: 'Orbitron', monospace;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all .3s;
+    clip-path: polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%);
+    text-decoration: none;
+    display: inline-block;
+  }
+  .btn-primary:hover {
+    box-shadow: var(--glow);
+    transform: translateY(-3px) scale(1.03);
+  }
+  .btn-outline {
+    background: transparent;
+    color: var(--cyan);
+    border: 1px solid var(--cyan);
+    padding: 14px 36px;
+    font-family: 'Orbitron', monospace;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all .3s;
+    clip-path: polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%);
+    text-decoration: none;
+    display: inline-block;
+  }
+  .btn-outline:hover {
+    background: rgba(0,245,255,0.1);
+    box-shadow: var(--glow2);
+    transform: translateY(-3px);
+  }
+
+  /* STATS BAR */
+  .stats-bar {
+    position: relative; z-index: 1;
+    background: rgba(0,245,255,0.04);
+    border-top: 1px solid rgba(0,245,255,0.1);
+    border-bottom: 1px solid rgba(0,245,255,0.1);
+    padding: 2rem 5%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px,1fr));
+    gap: 1rem;
+    text-align: center;
+  }
+  .stat-item { padding: 1rem; }
+  .stat-num {
+    font-family: 'Orbitron', monospace;
+    font-size: 2.2rem;
+    font-weight: 900;
+    color: var(--cyan);
+    text-shadow: var(--glow2);
+    display: block;
+  }
+  .stat-label {
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gray);
+    font-weight: 600;
+  }
+
+  /* SECTIONS */
+  section {
+    position: relative; z-index: 1;
+    padding: 100px 5%;
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+  .section-tag {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--cyan);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 0.75rem;
+  }
+  .section-title {
+    font-family: 'Orbitron', monospace;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 900;
+    color: #fff;
+    text-shadow: 0 0 20px rgba(0,245,255,0.3);
+  }
+  .section-title span { color: var(--cyan); }
+  .section-line {
+    width: 80px; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+    margin: 1rem auto 0;
+  }
+
+  /* SOBRE */
+  #sobre .sobre-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .sobre-visual {
+    position: relative;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .sobre-hexagon {
+    width: 260px; height: 260px;
+    background: linear-gradient(135deg, rgba(0,245,255,0.1), rgba(0,170,255,0.05));
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    display: flex; align-items: center; justify-content: center;
+    border: 1px solid rgba(0,245,255,0.3);
+    animation: rotateSlow 20s linear infinite;
+    position: relative;
+  }
+  @keyframes rotateSlow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  .sobre-hexagon img {
+    width: 180px; height: 180px; object-fit: contain;
+    animation: rotateSlow 20s linear infinite reverse;
+    filter: drop-shadow(0 0 20px #00f5ffaa);
+  }
+  .sobre-ring {
+    position: absolute;
+    width: 300px; height: 300px;
+    border: 1px dashed rgba(0,245,255,0.2);
+    border-radius: 50%;
+    animation: rotateSlow 30s linear infinite;
+  }
+  .sobre-ring2 {
+    position: absolute;
+    width: 360px; height: 360px;
+    border: 1px solid rgba(0,245,255,0.08);
+    border-radius: 50%;
+    animation: rotateSlow 45s linear infinite reverse;
+  }
+  .sobre-text h3 {
+    font-family: 'Orbitron', monospace;
+    font-size: 1.6rem; font-weight: 700;
+    color: #fff; margin-bottom: 1.2rem;
+  }
+  .sobre-text p {
+    color: var(--gray);
+    line-height: 1.8;
+    font-size: 1.05rem;
+    margin-bottom: 1rem;
+  }
+  .sobre-badges {
+    display: flex; flex-wrap: wrap; gap: 0.75rem;
+    margin-top: 1.5rem;
+  }
+  .sobre-badge {
+    display: flex; align-items: center; gap: 8px;
+    background: rgba(0,245,255,0.06);
+    border: 1px solid rgba(0,245,255,0.2);
+    padding: 8px 16px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--cyan);
+    letter-spacing: 1px;
+    clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+  }
+  .sobre-badge svg { width:16px; height:16px; }
+
+  /* SERVICOS */
+  #servicos { background: rgba(0,10,25,0.5); }
+  .servicos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .servico-card {
+    background: linear-gradient(135deg, rgba(0,245,255,0.04), rgba(0,40,80,0.4));
+    border: 1px solid rgba(0,245,255,0.12);
+    padding: 2.5rem 2rem;
+    position: relative;
+    overflow: hidden;
+    transition: all .4s;
+    clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px));
+  }
+  .servico-card::before {
+    content:'';
+    position: absolute; top:0; left:0; right:0; height:2px;
+    background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+    transform: scaleX(0);
+    transition: transform .4s;
+  }
+  .servico-card:hover { transform: translateY(-8px); border-color: rgba(0,245,255,0.4); }
+  .servico-card:hover::before { transform: scaleX(1); }
+  .servico-card.featured {
+    border-color: rgba(0,245,255,0.4);
+    background: linear-gradient(135deg, rgba(0,245,255,0.08), rgba(0,40,80,0.6));
+  }
+  .servico-card.featured::before { transform: scaleX(1); }
+  .card-tag-featured {
+    position: absolute; top: 1rem; right: 1rem;
+    background: var(--cyan);
+    color: var(--blue3);
+    font-family: 'Orbitron', monospace;
+    font-size: 0.6rem;
+    font-weight: 700;
+    padding: 4px 10px;
+    letter-spacing: 1px;
+    clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+  }
+  .servico-icon {
+    width: 56px; height: 56px;
+    background: rgba(0,245,255,0.1);
+    border: 1px solid rgba(0,245,255,0.3);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 1.5rem;
+    clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+  }
+  .servico-icon svg { width:28px; height:28px; color: var(--cyan); }
+  .servico-nome {
+    font-family: 'Orbitron', monospace;
+    font-size: 1.1rem; font-weight: 700;
+    color: #fff; margin-bottom: 0.5rem;
+  }
+  .servico-subtitulo {
+    font-size: 0.8rem; color: var(--gray);
+    letter-spacing: 2px; text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+  .servico-desc {
+    color: var(--gray); font-size: 0.95rem; line-height: 1.7;
+    margin-bottom: 1.5rem;
+  }
+  .preco-box {
+    border-top: 1px solid rgba(0,245,255,0.1);
+    padding-top: 1.5rem;
+  }
+  .preco-label {
+    font-size: 0.75rem; color: var(--gray);
+    letter-spacing: 2px; text-transform: uppercase;
+    margin-bottom: 0.25rem;
+  }
+  .preco-valor {
+    font-family: 'Orbitron', monospace;
+    font-size: 1.8rem; font-weight: 900;
+    color: var(--cyan);
+    text-shadow: var(--glow2);
+  }
+  .preco-original {
+    font-size: 0.9rem; color: var(--gray);
+    text-decoration: line-through;
+    margin-left: 0.5rem;
+  }
+  .preco-desc { font-size: 0.8rem; color: var(--gray); margin-top: 0.25rem; }
+  .desconto-badge {
+    display: inline-flex; align-items: center;
+    background: rgba(0,255,120,0.1);
+    border: 1px solid rgba(0,255,120,0.3);
+    color: #00ff88;
+    font-size: 0.75rem; font-weight: 700;
+    padding: 3px 10px; letter-spacing: 1px;
+    margin-top: 0.5rem;
+    clip-path: polygon(4px 0%, 100% 0%, calc(100% - 4px) 100%, 0% 100%);
+  }
+
+  /* EXTRAS */
+  .extras-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+    max-width: 900px;
+    margin: 3rem auto 0;
+  }
+  .extra-card {
+    background: rgba(0,245,255,0.03);
+    border: 1px solid rgba(0,245,255,0.1);
+    padding: 1.5rem;
+    display: flex; align-items: center; gap: 1rem;
+    transition: all .3s;
+  }
+  .extra-card:hover { border-color: rgba(0,245,255,0.3); background: rgba(0,245,255,0.06); }
+  .extra-icon { font-size: 1.8rem; }
+  .extra-nome { font-weight: 700; font-size: 0.95rem; color: #fff; }
+  .extra-preco { color: var(--cyan); font-family: 'Orbitron', monospace; font-size: 1.1rem; font-weight: 700; }
+
+  /* COMO FUNCIONA */
+  #como-funciona { background: rgba(0,5,20,0.6); }
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    max-width: 1100px; margin: 0 auto;
+    position: relative;
+  }
+  .steps::before {
+    content:'';
+    position: absolute; top: 40px; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(0,245,255,0.3), transparent);
+  }
+  .step {
+    text-align: center; padding: 2rem 1rem;
+    position: relative;
+    animation: fadeInUp .6s ease backwards;
+  }
+  .step:nth-child(2) { animation-delay: .1s; }
+  .step:nth-child(3) { animation-delay: .2s; }
+  .step:nth-child(4) { animation-delay: .3s; }
+  .step:nth-child(5) { animation-delay: .4s; }
+  @keyframes fadeInUp {
+    from { opacity:0; transform:translateY(20px); }
+    to { opacity:1; transform:translateY(0); }
+  }
+  .step-num {
+    width: 60px; height: 60px;
+    background: linear-gradient(135deg, var(--cyan), var(--accent));
+    color: var(--blue3);
+    font-family: 'Orbitron', monospace;
+    font-size: 1.3rem; font-weight: 900;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 1.5rem;
+    clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+    position: relative; z-index: 1;
+  }
+  .step h4 {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.95rem; font-weight: 700;
+    color: #fff; margin-bottom: 0.75rem;
+  }
+  .step p { color: var(--gray); font-size: 0.9rem; line-height: 1.6; }
+
+  /* TECNOLOGIAS */
+  .tech-scroll-wrap { overflow: hidden; margin: 2rem 0; }
+  .tech-scroll {
+    display: flex; gap: 2rem;
+    animation: scrollTech 20s linear infinite;
+    white-space: nowrap;
+  }
+  .tech-scroll:hover { animation-play-state: paused; }
+  @keyframes scrollTech {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  .tech-item {
+    display: flex; align-items: center; gap: 10px;
+    background: rgba(0,245,255,0.05);
+    border: 1px solid rgba(0,245,255,0.1);
+    padding: 10px 20px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.85rem; color: var(--cyan);
+    letter-spacing: 1px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+  }
+  .tech-dot { width:6px; height:6px; background:var(--cyan); border-radius:50%; }
+
+  /* ORCAMENTO */
+  #orcamento { background: rgba(0,10,25,0.7); }
+  .orc-container {
+    max-width: 800px; margin: 0 auto;
+    background: linear-gradient(135deg, rgba(0,245,255,0.04), rgba(0,20,50,0.6));
+    border: 1px solid rgba(0,245,255,0.15);
+    padding: 3rem;
+    clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 24px 100%, 0 calc(100% - 24px));
+  }
+  .form-row {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 1.5rem; margin-bottom: 1.5rem;
+  }
+  .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
+  .form-group.full { grid-column: 1/-1; }
+  .form-group label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.75rem; color: var(--cyan);
+    letter-spacing: 2px; text-transform: uppercase;
+  }
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    background: rgba(0,245,255,0.04);
+    border: 1px solid rgba(0,245,255,0.2);
+    color: var(--white);
+    padding: 12px 16px;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1rem;
+    outline: none;
+    transition: all .3s;
+    clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+  }
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    border-color: var(--cyan);
+    background: rgba(0,245,255,0.08);
+    box-shadow: var(--glow2);
+  }
+  .form-group select option { background: #0a1628; }
+  .form-group textarea { resize: vertical; min-height: 120px; }
+  .orc-result {
+    background: rgba(0,245,255,0.06);
+    border: 1px solid rgba(0,245,255,0.2);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    display: none;
+  }
+  .orc-result.visible { display: block; }
+  .orc-result-title {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.8rem; color: var(--cyan);
+    letter-spacing: 2px; margin-bottom: 1rem;
+  }
+  .orc-items { list-style: none; }
+  .orc-items li {
+    display: flex; justify-content: space-between;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(0,245,255,0.08);
+    font-size: 0.95rem; color: var(--gray);
+  }
+  .orc-items li:last-child { border:none; }
+  .orc-total {
+    display: flex; justify-content: space-between;
+    margin-top: 1rem; padding-top: 1rem;
+    border-top: 1px solid rgba(0,245,255,0.3);
+    font-family: 'Orbitron', monospace;
+    font-size: 1.2rem; font-weight: 700;
+    color: var(--cyan);
+  }
+  .orc-desconto-msg {
+    color: #00ff88; font-size: 0.85rem;
+    margin-top: 0.5rem; font-weight: 600;
+  }
+  .form-actions {
+    display: flex; gap: 1rem; flex-wrap: wrap;
+    margin-top: 1.5rem;
+  }
+
+  /* CONTATO */
+  #contato { background: rgba(0,5,15,0.8); }
+  .contato-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    max-width: 1000px; margin: 0 auto;
+    align-items: start;
+  }
+  .contato-info h3 {
+    font-family: 'Orbitron', monospace;
+    font-size: 1.4rem; color: #fff;
+    margin-bottom: 1.5rem;
+  }
+  .contato-item {
+    display: flex; align-items: center; gap: 1rem;
+    padding: 1.2rem;
+    background: rgba(0,245,255,0.04);
+    border: 1px solid rgba(0,245,255,0.1);
+    margin-bottom: 1rem;
+    transition: all .3s;
+    text-decoration: none;
+    color: inherit;
+  }
+  .contato-item:hover {
+    border-color: rgba(0,245,255,0.4);
+    background: rgba(0,245,255,0.08);
+    transform: translateX(8px);
+  }
+  .contato-item-icon {
+    width: 44px; height: 44px;
+    background: rgba(0,245,255,0.1);
+    border: 1px solid rgba(0,245,255,0.2);
+    display: flex; align-items: center; justify-content: center;
+    clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+    flex-shrink: 0;
+  }
+  .contato-item-icon svg { width:20px; height:20px; color: var(--cyan); }
+  .contato-item-label {
+    font-size: 0.7rem; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--gray);
+  }
+  .contato-item-value { font-weight: 700; color: #fff; font-size: 1rem; }
+  .contato-info-extra {
+    margin-top: 2rem; padding: 1.5rem;
+    background: rgba(0,245,255,0.04);
+    border: 1px solid rgba(0,245,255,0.1);
+    border-left: 3px solid var(--cyan);
+  }
+  .contato-info-extra p {
+    font-size: 0.9rem; color: var(--gray); line-height: 1.7;
+  }
+  .contato-info-extra strong { color: var(--cyan); }
+
+  /* FOOTER */
+  footer {
+    position: relative; z-index:1;
+    background: rgba(0,3,10,0.95);
+    border-top: 1px solid rgba(0,245,255,0.1);
+    padding: 3rem 5% 2rem;
+    text-align: center;
+  }
+  .footer-logo {
+    display: flex; align-items: center; justify-content: center;
+    gap: 12px; margin-bottom: 1.5rem;
+  }
+  .footer-logo img {
+    height: 50px; filter: drop-shadow(0 0 10px #00f5ff88);
+  }
+  .footer-logo span {
+    font-family: 'Orbitron', monospace;
+    font-size: 1.1rem; font-weight: 700; color: var(--cyan);
+    text-shadow: var(--glow2);
+  }
+  .footer-links {
+    display: flex; justify-content: center;
+    gap: 2rem; flex-wrap: wrap;
+    list-style: none; margin-bottom: 2rem;
+  }
+  .footer-links a {
+    color: var(--gray); text-decoration: none;
+    font-size: 0.85rem; font-weight: 600;
+    letter-spacing: 1px; transition: color .3s;
+    font-family: 'Orbitron', monospace;
+  }
+  .footer-links a:hover { color: var(--cyan); }
+  .footer-copy {
+    font-size: 0.8rem; color: rgba(122,179,204,0.5);
+    font-family: 'Share Tech Mono', monospace;
+  }
+
+  /* MODAL DESCRICAO */
+  .modal-overlay {
+    display: none;
+    position: fixed; top:0; left:0; right:0; bottom:0;
+    background: rgba(0,0,0,0.85);
+    z-index: 2000;
+    align-items: center; justify-content: center;
+    backdrop-filter: blur(8px);
+  }
+  .modal-overlay.active { display: flex; }
+  .modal {
+    background: #061020;
+    border: 1px solid rgba(0,245,255,0.25);
+    max-width: 600px; width: 90%;
+    padding: 2.5rem;
+    position: relative;
+    clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 24px 100%, 0 calc(100% - 24px));
+    animation: modalIn .3s ease;
+  }
+  @keyframes modalIn {
+    from { transform: scale(.9) translateY(20px); opacity:0; }
+    to { transform: scale(1) translateY(0); opacity:1; }
+  }
+  .modal-close {
+    position: absolute; top:1rem; right:1rem;
+    background: rgba(0,245,255,0.1);
+    border: 1px solid rgba(0,245,255,0.2);
+    color: var(--cyan);
+    width:32px; height:32px;
+    display: flex; align-items:center; justify-content:center;
+    cursor: pointer; font-size:1.1rem;
+    transition: all .2s;
+  }
+  .modal-close:hover { background: rgba(0,245,255,0.2); }
+  .modal h3 {
+    font-family: 'Orbitron', monospace;
+    font-size: 1.3rem; color: var(--cyan);
+    margin-bottom: 1rem;
+  }
+  .modal p { color: var(--gray); line-height: 1.8; font-size: 1rem; margin-bottom: 1rem; }
+  .modal ul {
+    list-style: none; padding: 0;
+    display: flex; flex-direction: column; gap: 0.5rem;
+  }
+  .modal ul li {
+    color: var(--gray); font-size: 0.95rem;
+    display: flex; align-items:flex-start; gap: 0.5rem;
+    line-height: 1.6;
+  }
+  .modal ul li::before {
+    content:'▸'; color: var(--cyan); flex-shrink: 0; margin-top: 1px;
+  }
+
+  /* PRINT */
+  @media print {
+    nav, #hero, #sobre, #servicos, #como-funciona, #contato, footer,
+    #particles, .cursor, .cursor-ring, body::before,
+    .form-actions .btn-outline, .tech-scroll-wrap { display:none !important; }
+    #orcamento { padding:0; background:white; color:black; }
+    .orc-container { border:none; clip-path:none; }
+    .orc-result { display:block !important; }
+    .orc-result-title, .orc-total { color:#0a1628 !important; }
+    .orc-items li { color:#333 !important; }
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    nav { padding: 0 4%; }
+    .nav-links { display:none; }
+    #sobre .sobre-grid { grid-template-columns:1fr; }
+    .sobre-visual { margin-bottom: 2rem; }
+    .form-row { grid-template-columns:1fr; }
+    .contato-grid { grid-template-columns:1fr; }
+    .steps::before { display:none; }
+    .orc-container { padding: 1.5rem; }
+  }
+
+  /* SCROLL ANIMATIONS */
+  .reveal {
+    opacity:0; transform: translateY(30px);
+    transition: opacity .7s ease, transform .7s ease;
+  }
+  .reveal.visible { opacity:1; transform: translateY(0); }
+
+  /* GLITCH */
+  .glitch {
+    position: relative;
+  }
+  .glitch::before, .glitch::after {
+    content: attr(data-text);
+    position: absolute; top:0; left:0; width:100%; height:100%;
+    background: linear-gradient(135deg, #ffffff 0%, var(--cyan) 50%, var(--accent) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .glitch::before {
+    animation: glitch1 4s infinite;
+    clip-path: polygon(0 20%, 100% 20%, 100% 40%, 0 40%);
+  }
+  .glitch::after {
+    animation: glitch2 4s infinite;
+    clip-path: polygon(0 60%, 100% 60%, 100% 80%, 0 80%);
+  }
+  @keyframes glitch1 {
+    0%,90%,100% { transform:translateX(0); opacity:0; }
+    92% { transform:translateX(-3px); opacity:.7; }
+    94% { transform:translateX(3px); opacity:.7; }
+    96% { transform:translateX(0); opacity:0; }
+  }
+  @keyframes glitch2 {
+    0%,90%,100% { transform:translateX(0); opacity:0; }
+    91% { transform:translateX(3px); opacity:.7; }
+    93% { transform:translateX(-3px); opacity:.7; }
+    95% { transform:translateX(0); opacity:0; }
+  }
+
+  /* SCAN LINE */
+  .scan-line {
+    position: fixed; top:0; left:0; right:0; height:2px;
+    background: linear-gradient(90deg, transparent, rgba(0,245,255,0.6), transparent);
+    animation: scanDown 6s linear infinite;
+    pointer-events:none; z-index:500;
+    opacity: 0.3;
+  }
+  @keyframes scanDown {
+    from { top: 0; }
+    to { top: 100vh; }
+  }
+</style>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- SCAN LINE -->
+<div class="scan-line"></div>
+
+<!-- PARTICLES -->
+<div id="particles"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <img src="/mnt/user-data/uploads/1000634104.jpg" alt="Code Gyn Studio" onerror="this.style.display='none'">
+    CODE GYN STUDIO
+  </div>
+  <ul class="nav-links">
+    <li><a href="#sobre">Sobre</a></li>
+    <li><a href="#servicos">Serviços</a></li>
+    <li><a href="#como-funciona">Como Funciona</a></li>
+    <li><a href="#orcamento">Orçamento</a></li>
+    <li><a href="#contato">Contato</a></li>
+  </ul>
+  <button class="nav-cta" onclick="document.getElementById('orcamento').scrollIntoView({behavior:'smooth'})">
+    Fazer Orçamento
+  </button>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-glow-orb"></div>
+  <div class="hero-logo-3d">
+    <img src="/mnt/user-data/uploads/1000634104.jpg" alt="Code Gyn Studio Logo" onerror="this.style.display='none'">
+  </div>
+  <div class="hero-badge">✦ Especializado em Informática ✦</div>
+  <h1 class="hero-title glitch" data-text="CODE GYN STUDIO">CODE GYN STUDIO</h1>
+  <p class="hero-sub">CRIAÇÃO DE SITES SOB MEDIDA</p>
+  <p class="hero-desc">
+    Sites profissionais criados do zero com programação pura em Python. 
+    Cada projeto é único, entregue com qualidade garantida por formação técnica certificada.
+  </p>
+  <div class="hero-btns">
+    <a href="#orcamento" class="btn-primary">Solicitar Orçamento</a>
+    <a href="#servicos" class="btn-outline">Ver Serviços</a>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stat-item reveal">
+    <span class="stat-num" data-target="100">0</span>
+    <span class="stat-label">% Programação Pura</span>
+  </div>
+  <div class="stat-item reveal">
+    <span class="stat-num" data-target="3">0</span>
+    <span class="stat-label">Tipos de Sites</span>
+  </div>
+  <div class="stat-item reveal">
+    <span class="stat-num">2</span>
+    <span class="stat-label">Certificações Técnicas</span>
+  </div>
+  <div class="stat-item reveal">
+    <span class="stat-num">∞</span>
+    <span class="stat-label">Possibilidades</span>
+  </div>
+</div>
+
+<!-- SOBRE -->
+<section id="sobre">
+  <div class="section-header reveal">
+    <span class="section-tag">// quem somos</span>
+    <h2 class="section-title">Sobre a <span>Code Gyn Studio</span></h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="sobre-grid">
+    <div class="sobre-visual reveal">
+      <div class="sobre-ring2"></div>
+      <div class="sobre-ring"></div>
+      <div class="sobre-hexagon">
+        <img src="/mnt/user-data/uploads/1000634104.jpg" alt="Code Gyn" onerror="this.style.display='none'">
+      </div>
+    </div>
+    <div class="sobre-text reveal">
+      <h3>Tecnologia que transforma negócios</h3>
+      <p>
+        A <strong style="color:var(--cyan)">Code Gyn Studio</strong> é especializada em criação de sites sob medida, 
+        desenvolvendo cada projeto do zero com programação pura — sem construtores limitados ou templates genéricos.
+      </p>
+      <p>
+        Cada site é construído com código limpo, moderno e escalável, garantindo 
+        performance, design único e total personalização para a identidade da sua marca.
+      </p>
+      <p>
+        Sites desenvolvidos em <strong style="color:var(--cyan)">Python</strong> com tecnologias web modernas, 
+        entregando projetos que se destacam pela qualidade técnica e visual.
+      </p>
+      <p style="font-size:0.9rem; color: #00ff88; font-weight:600;">
+        ⚠️ Domínio não incluso — adquirido separadamente pelo cliente com o nome que preferir.
+      </p>
+      <div class="sobre-badges">
+        <div class="sobre-badge">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/></svg>
+          SENAI – TI
+        </div>
+        <div class="sobre-badge">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+          SENAC – Cyber Segurança
+        </div>
+        <div class="sobre-badge">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
+          Python Dev
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICOS -->
+<section id="servicos">
+  <div class="section-header reveal">
+    <span class="section-tag">// o que oferecemos</span>
+    <h2 class="section-title">Nossos <span>Serviços</span></h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="servicos-grid">
+
+    <!-- Site de Empresa -->
+    <div class="servico-card reveal">
+      <div class="servico-icon">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-2 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+      </div>
+      <div class="servico-nome">Site de Empresa</div>
+      <div class="servico-subtitulo">Básico · Marcas Pequenas, Médias e Grandes</div>
+      <div class="servico-desc">
+        Site profissional completo para apresentar sua empresa ao mundo digital. 
+        Ideal para quem está começando ou quer modernizar a presença online com qualidade.
+      </div>
+      <button class="btn-outline" style="font-size:0.7rem; padding:6px 14px; margin-bottom:1.5rem;" onclick="openModal('empresa')">
+        ▸ Entender este plano
+      </button>
+      <div class="preco-box">
+        <div class="preco-label">Investimento</div>
+        <div>
+          <span class="preco-valor">R$500</span>
+          <span class="preco-original">R$1.000</span>
+        </div>
+        <div class="preco-desc">ou de R$1.500 <span class="preco-original">R$2.000</span></div>
+        <div class="desconto-badge">🎉 DESCONTO 1º CLIENTE: -R$500</div>
+        <div class="preco-desc" style="margin-top:.5rem;">*Domínio comprado à parte</div>
+      </div>
+    </div>
+
+    <!-- Site Institucional -->
+    <div class="servico-card featured reveal">
+      <div class="card-tag-featured">MAIS COMPLETO</div>
+      <div class="servico-icon">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17H3a2 2 0 01-2-2V5a2 2 0 012-2h14a2 2 0 012 2v10a2 2 0 01-2 2h-2"/></svg>
+      </div>
+      <div class="servico-nome">Site Institucional</div>
+      <div class="servico-subtitulo">Páginas Avançadas · Conteúdo Rico</div>
+      <div class="servico-desc">
+        Site mais robusto com múltiplas páginas, conteúdo institucional completo, 
+        formulários avançados e estrutura profissional para empresas que querem se destacar.
+      </div>
+      <button class="btn-outline" style="font-size:0.7rem; padding:6px 14px; margin-bottom:1.5rem;" onclick="openModal('institucional')">
+        ▸ Entender este plano
+      </button>
+      <div class="preco-box">
+        <div class="preco-label">Investimento</div>
+        <div>
+          <span class="preco-valor">R$2.000</span>
+        </div>
+        <div class="preco-desc">*Domínio comprado à parte</div>
+      </div>
+    </div>
+
+    <!-- Site Personalizado -->
+    <div class="servico-card reveal">
+      <div class="servico-icon">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 10V7"/></svg>
+      </div>
+      <div class="servico-nome">Site Personalizado</div>
+      <div class="servico-subtitulo">3D · Autônomo · Ultra Avançado</div>
+      <div class="servico-desc">
+        O nível máximo: projetos com animações 3D, sistemas autônomos, integrações avançadas 
+        e tudo que você imaginar. Para quem não aceita menos que extraordinário.
+      </div>
+      <button class="btn-outline" style="font-size:0.7rem; padding:6px 14px; margin-bottom:1.5rem;" onclick="openModal('personalizado')">
+        ▸ Entender este plano
+      </button>
+      <div class="preco-box">
+        <div class="preco-label">Investimento</div>
+        <div>
+          <span class="preco-valor">R$6.000</span>
+          <span class="preco-original">R$7.000</span>
+        </div>
+        <div class="desconto-badge">🎉 DESCONTO 1º CLIENTE: -R$1.000</div>
+        <div class="preco-desc" style="margin-top:.5rem;">*Domínio comprado à parte</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- EXTRAS -->
+  <div class="section-header reveal" style="margin-top:4rem; margin-bottom:2rem;">
+    <span class="section-tag">// também faço</span>
+    <h3 class="section-title" style="font-size:1.6rem;">Serviços <span>Adicionais</span></h3>
+  </div>
+  <div class="extras-grid">
+    <div class="extra-card reveal">
+      <div class="extra-icon">💎</div>
+      <div>
+        <div class="extra-nome">Logo de Empresa</div>
+        <div class="extra-preco">R$150</div>
+      </div>
+    </div>
+    <div class="extra-card reveal">
+      <div class="extra-icon">📣</div>
+      <div>
+        <div class="extra-nome">Propaganda / Anúncios</div>
+        <div class="extra-preco">R$50</div>
+      </div>
+    </div>
+    <div class="extra-card reveal">
+      <div class="extra-icon">🖼️</div>
+      <div>
+        <div class="extra-nome">Banner Digital</div>
+        <div class="extra-preco">R$100</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMO FUNCIONA -->
+<section id="como-funciona">
+  <div class="section-header reveal">
+    <span class="section-tag">// processo</span>
+    <h2 class="section-title">Como <span>Funciona</span></h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="steps">
+    <div class="step reveal">
+      <div class="step-num">01</div>
+      <h4>Orçamento</h4>
+      <p>Você preenche o formulário ou entra em contato via WhatsApp com os detalhes do projeto.</p>
+    </div>
+    <div class="step reveal">
+      <div class="step-num">02</div>
+      <h4>Alinhamento</h4>
+      <p>Conversamos sobre sua visão, identidade da marca e tudo que você deseja no site.</p>
+    </div>
+    <div class="step reveal">
+      <div class="step-num">03</div>
+      <h4>Desenvolvimento</h4>
+      <p>O site é desenvolvido do zero com programação pura em Python e tecnologias modernas.</p>
+    </div>
+    <div class="step reveal">
+      <div class="step-num">04</div>
+      <h4>Revisão</h4>
+      <p>Você revisa, solicita ajustes e aprova cada detalhe antes da entrega final.</p>
+    </div>
+    <div class="step reveal">
+      <div class="step-num">05</div>
+      <h4>Entrega</h4>
+      <p>Site entregue pronto. O domínio fica com você — escolhe o nome que quiser!</p>
+    </div>
+  </div>
+
+  <!-- TECH SCROLL -->
+  <div style="margin-top:4rem;" class="reveal">
+    <div class="section-header" style="margin-bottom:1.5rem;">
+      <span class="section-tag">// stack tecnológico</span>
+    </div>
+    <div class="tech-scroll-wrap">
+      <div class="tech-scroll">
+        <div class="tech-item"><div class="tech-dot"></div>Python</div>
+        <div class="tech-item"><div class="tech-dot"></div>HTML5</div>
+        <div class="tech-item"><div class="tech-dot"></div>CSS3</div>
+        <div class="tech-item"><div class="tech-dot"></div>JavaScript</div>
+        <div class="tech-item"><div class="tech-dot"></div>Flask / Django</div>
+        <div class="tech-item"><div class="tech-dot"></div>Three.js</div>
+        <div class="tech-item"><div class="tech-dot"></div>Animações 3D</div>
+        <div class="tech-item"><div class="tech-dot"></div>Responsivo</div>
+        <div class="tech-item"><div class="tech-dot"></div>SEO Otimizado</div>
+        <div class="tech-item"><div class="tech-dot"></div>Cyber Segurança</div>
+        <!-- duplicado para loop -->
+        <div class="tech-item"><div class="tech-dot"></div>Python</div>
+        <div class="tech-item"><div class="tech-dot"></div>HTML5</div>
+        <div class="tech-item"><div class="tech-dot"></div>CSS3</div>
+        <div class="tech-item"><div class="tech-dot"></div>JavaScript</div>
+        <div class="tech-item"><div class="tech-dot"></div>Flask / Django</div>
+        <div class="tech-item"><div class="tech-dot"></div>Three.js</div>
+        <div class="tech-item"><div class="tech-dot"></div>Animações 3D</div>
+        <div class="tech-item"><div class="tech-dot"></div>Responsivo</div>
+        <div class="tech-item"><div class="tech-dot"></div>SEO Otimizado</div>
+        <div class="tech-item"><div class="tech-dot"></div>Cyber Segurança</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ORÇAMENTO -->
+<section id="orcamento">
+  <div class="section-header reveal">
+    <span class="section-tag">// solicitar proposta</span>
+    <h2 class="section-title">Fazer <span>Orçamento</span></h2>
+    <div class="section-line"></div>
+    <p style="color:var(--gray); margin-top:1rem; font-size:1rem;">Preencha o formulário abaixo para receber sua proposta personalizada</p>
+  </div>
+
+  <div class="orc-container reveal">
+    <div class="form-row">
+      <div class="form-group">
+        <label for="nome">Seu Nome *</label>
+        <input type="text" id="nome" placeholder="João Silva" required>
+      </div>
+      <div class="form-group">
+        <label for="empresa">Nome da Empresa</label>
+        <input type="text" id="empresa" placeholder="Minha Empresa Ltda">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label for="email">E-mail *</label>
+        <input type="email" id="email" placeholder="seuemail@gmail.com" required>
+      </div>
+      <div class="form-group">
+        <label for="whatsapp">WhatsApp *</label>
+        <input type="tel" id="whatsapp" placeholder="(62) 9 9999-9999" required>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label for="tipo">Tipo de Site *</label>
+        <select id="tipo" onchange="calcOrcamento()" required>
+          <option value="">— Selecione —</option>
+          <option value="empresa_1000">Site de Empresa – R$1.000</option>
+          <option value="empresa_2000">Site de Empresa – R$2.000</option>
+          <option value="institucional">Site Institucional – R$2.000</option>
+          <option value="personalizado">Site Personalizado – R$7.000</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="primeiro">É seu primeiro pedido conosco? *</label>
+        <select id="primeiro" onchange="calcOrcamento()" required>
+          <option value="">— Selecione —</option>
+          <option value="sim">Sim, é meu primeiro!</option>
+          <option value="nao">Não, já sou cliente</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- EXTRAS -->
+    <div class="form-group full" style="margin-bottom:1.5rem;">
+      <label>Serviços Adicionais (opcional)</label>
+      <div style="display:flex; flex-wrap:wrap; gap:1rem; margin-top:.5rem;">
+        <label style="display:flex; align-items:center; gap:.5rem; color:var(--gray); cursor:pointer; font-size:.95rem; font-family:'Rajdhani',sans-serif; letter-spacing:0; text-transform:none;">
+          <input type="checkbox" value="150" id="extra_logo" onchange="calcOrcamento()" style="clip-path:none; accent-color:var(--cyan); width:16px; height:16px;">
+          Logo de Empresa (+R$150)
+        </label>
+        <label style="display:flex; align-items:center; gap:.5rem; color:var(--gray); cursor:pointer; font-size:.95rem; font-family:'Rajdhani',sans-serif; letter-spacing:0; text-transform:none;">
+          <input type="checkbox" value="50" id="extra_prop" onchange="calcOrcamento()" style="clip-path:none; accent-color:var(--cyan); width:16px; height:16px;">
+          Propaganda / Anúncio (+R$50)
+        </label>
+        <label style="display:flex; align-items:center; gap:.5rem; color:var(--gray); cursor:pointer; font-size:.95rem; font-family:'Rajdhani',sans-serif; letter-spacing:0; text-transform:none;">
+          <input type="checkbox" value="100" id="extra_banner" onchange="calcOrcamento()" style="clip-path:none; accent-color:var(--cyan); width:16px; height:16px;">
+          Banner Digital (+R$100)
+        </label>
+      </div>
+    </div>
+
+    <div class="form-group full" style="margin-bottom:1.5rem;">
+      <label for="detalhes">Detalhes do Projeto</label>
+      <textarea id="detalhes" placeholder="Descreva como você imagina o seu site, cores preferidas, seções desejadas, referências..."></textarea>
+    </div>
+
+    <!-- RESULTADO -->
+    <div class="orc-result" id="orcResult">
+      <div class="orc-result-title">▸ RESUMO DO ORÇAMENTO</div>
+      <ul class="orc-items" id="orcItems"></ul>
+      <div class="orc-total">
+        <span>TOTAL ESTIMADO</span>
+        <span id="orcTotal">R$0</span>
+      </div>
+      <div class="orc-desconto-msg" id="orcDescontoMsg"></div>
+    </div>
+
+    <div class="form-actions">
+      <button class="btn-primary" onclick="enviarOrcamento()">
+        ✦ Enviar via WhatsApp
+      </button>
+      <button class="btn-outline" onclick="enviarEmail()">
+        ✉ Enviar por E-mail
+      </button>
+      <button class="btn-outline" onclick="window.print()">
+        🖨 Imprimir Orçamento
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- CONTATO -->
+<section id="contato">
+  <div class="section-header reveal">
+    <span class="section-tag">// fale conosco</span>
+    <h2 class="section-title">Entre em <span>Contato</span></h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="contato-grid">
+    <div class="contato-info reveal">
+      <h3>Vamos construir algo incrível juntos!</h3>
+
+      <a class="contato-item" href="https://wa.me/5562992988701" target="_blank">
+        <div class="contato-item-icon">
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+        </div>
+        <div>
+          <div class="contato-item-label">WhatsApp</div>
+          <div class="contato-item-value">(62) 9 9298-8701</div>
+        </div>
+      </a>
+
+      <a class="contato-item" href="mailto:ph5652115@gmail.com">
+        <div class="contato-item-icon">
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+        </div>
+        <div>
+          <div class="contato-item-label">E-mail</div>
+          <div class="contato-item-value">ph5652115@gmail.com</div>
+        </div>
+      </a>
+
+      <a class="contato-item" href="https://instagram.com" target="_blank">
+        <div class="contato-item-icon">
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><rect x="2" y="2" width="20" height="20" rx="5" ry="5" stroke-width="2"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke-width="2"/></svg>
+        </div>
+        <div>
+          <div class="contato-item-label">Instagram</div>
+          <div class="contato-item-value">@codegynstudio</div>
+        </div>
+      </a>
+
+      <div class="contato-info-extra">
+        <p>
+          ⚡ <strong>Resposta rápida via WhatsApp</strong><br>
+          Atendimento personalizado para cada projeto. 
+          Tire suas dúvidas, solicite orçamento ou converse sobre sua ideia — 
+          estou à disposição para transformar sua visão em realidade digital.
+        </p>
+      </div>
+    </div>
+
+    <div class="reveal" style="display:flex; flex-direction:column; gap:1.5rem;">
+      <div style="background:rgba(0,245,255,0.04); border:1px solid rgba(0,245,255,0.15); padding:2rem; clip-path:polygon(0 0,calc(100% - 16px) 0,100% 16px,100% 100%,16px 100%,0 calc(100% - 16px));">
+        <h4 style="font-family:'Orbitron',monospace; font-size:1rem; color:var(--cyan); margin-bottom:1rem; letter-spacing:2px;">SOBRE O DOMÍNIO</h4>
+        <p style="color:var(--gray); line-height:1.8; font-size:0.95rem;">
+          O domínio é adquirido <strong style="color:#fff">separadamente</strong> pelo cliente. 
+          Você escolhe o nome do site que quiser (ex: <em style="color:var(--cyan)">minhaempresa.com.br</em>) 
+          e recebe o site pronto para vincular ao domínio escolhido.
+        </p>
+      </div>
+      <div style="background:rgba(0,245,255,0.04); border:1px solid rgba(0,245,255,0.15); padding:2rem; clip-path:polygon(0 0,calc(100% - 16px) 0,100% 16px,100% 100%,16px 100%,0 calc(100% - 16px));">
+        <h4 style="font-family:'Orbitron',monospace; font-size:1rem; color:var(--cyan); margin-bottom:1rem; letter-spacing:2px;">GARANTIA DE QUALIDADE</h4>
+        <p style="color:var(--gray); line-height:1.8; font-size:0.95rem;">
+          Formado em <strong style="color:#fff">TI pelo SENAI</strong> e 
+          <strong style="color:#fff">Cybersegurança pelo SENAC</strong>. 
+          Cada projeto entregue com código seguro, otimizado e de alta performance.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">
+    <img src="/mnt/user-data/uploads/1000634104.jpg" alt="Code Gyn Studio" onerror="this.style.display='none'">
+    <span>CODE GYN STUDIO</span>
+  </div>
+  <ul class="footer-links">
+    <li><a href="#sobre">Sobre</a></li>
+    <li><a href="#servicos">Serviços</a></li>
+    <li><a href="#como-funciona">Como Funciona</a></li>
+    <li><a href="#orcamento">Orçamento</a></li>
+    <li><a href="#contato">Contato</a></li>
+  </ul>
+  <p class="footer-copy">© 2025 Code Gyn Studio · Especializado em Informática · Criado com programação pura em Python</p>
+</footer>
+
+<!-- MODALS -->
+<div class="modal-overlay" id="modal-empresa" onclick="closeModal('empresa')">
+  <div class="modal" onclick="event.stopPropagation()">
+    <button class="modal-close" onclick="closeModal('empresa')">✕</button>
+    <h3>🏢 Site de Empresa [Básico]</h3>
+    <p>Ideal para marcas pequenas, médias e grandes que precisam de presença digital profissional.</p>
+    <ul>
+      <li>Página inicial com apresentação da empresa</li>
+      <li>Seção de serviços/produtos</li>
+      <li>Página Sobre Nós</li>
+      <li>Formulário de contato</li>
+      <li>Design responsivo (funciona em celular e desktop)</li>
+      <li>Integração com WhatsApp e redes sociais</li>
+      <li>Código limpo e otimizado para SEO</li>
+    </ul>
+    <p style="margin-top:1rem; color:#00ff88; font-size:.9rem;">⚠️ Domínio adquirido separadamente pelo cliente.</p>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-institucional" onclick="closeModal('institucional')">
+  <div class="modal" onclick="event.stopPropagation()">
+    <button class="modal-close" onclick="closeModal('institucional')">✕</button>
+    <h3>🖥️ Site Institucional</h3>
+    <p>Versão mais completa, com múltiplas páginas e funcionalidades avançadas para empresas que desejam se destacar.</p>
+    <ul>
+      <li>Tudo do plano Básico +</li>
+      <li>Múltiplas páginas e seções avançadas</li>
+      <li>Blog ou área de notícias</li>
+      <li>Galeria de portfólio ou produtos</li>
+      <li>Painel administrativo básico</li>
+      <li>Animações e transições profissionais</li>
+      <li>Maior complexidade visual e técnica</li>
+      <li>Segurança reforçada com boas práticas de cybersegurança</li>
+    </ul>
+    <p style="margin-top:1rem; color:#00ff88; font-size:.9rem;">⚠️ Domínio adquirido separadamente pelo cliente.</p>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-personalizado" onclick="closeModal('personalizado')">
+  <div class="modal" onclick="event.stopPropagation()">
+    <button class="modal-close" onclick="closeModal('personalizado')">✕</button>
+    <h3>🚀 Site Personalizado</h3>
+    <p>O nível máximo de desenvolvimento. Para quem quer algo verdadeiramente único e tecnológico.</p>
+    <ul>
+      <li>Tudo dos planos anteriores +</li>
+      <li>Animações e modelos 3D interativos</li>
+      <li>Sistemas autônomos e integrações avançadas</li>
+      <li>Painel de controle completo personalizado</li>
+      <li>E-commerce ou sistemas de agendamento</li>
+      <li>Integração com APIs externas</li>
+      <li>Performance e segurança de nível profissional</li>
+      <li>Suporte pós-entrega incluso</li>
+    </ul>
+    <p style="margin-top:1rem; color:#00ff88; font-size:.9rem;">⚠️ Domínio adquirido separadamente pelo cliente.</p>
+  </div>
+</div>
+
+<script>
+// CURSOR
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+document.addEventListener('mousemove', e => {
+  cursor.style.left = e.clientX + 'px';
+  cursor.style.top = e.clientY + 'px';
+  setTimeout(() => {
+    ring.style.left = e.clientX + 'px';
+    ring.style.top = e.clientY + 'px';
+  }, 80);
+});
+document.querySelectorAll('a,button,input,select,textarea').forEach(el => {
+  el.addEventListener('mouseenter', () => {
+    cursor.style.transform = 'translate(-50%,-50%) scale(2)';
+    ring.style.transform = 'translate(-50%,-50%) scale(1.5)';
+    ring.style.borderColor = 'var(--cyan)';
+  });
+  el.addEventListener('mouseleave', () => {
+    cursor.style.transform = 'translate(-50%,-50%) scale(1)';
+    ring.style.transform = 'translate(-50%,-50%) scale(1)';
+  });
+});
+
+// PARTICLES
+const pContainer = document.getElementById('particles');
+for (let i = 0; i < 40; i++) {
+  const p = document.createElement('div');
+  p.className = 'particle';
+  p.style.left = Math.random() * 100 + '%';
+  p.style.animationDuration = (8 + Math.random() * 15) + 's';
+  p.style.animationDelay = (Math.random() * 15) + 's';
+  p.style.width = p.style.height = (1 + Math.random() * 3) + 'px';
+  pContainer.appendChild(p);
+}
+
+// COUNTER ANIMATION
+function animateCounter(el, target) {
+  let current = 0;
+  const step = target / 60;
+  const timer = setInterval(() => {
+    current += step;
+    if (current >= target) { el.textContent = target; clearInterval(timer); }
+    else { el.textContent = Math.floor(current); }
+  }, 25);
+}
+
+// SCROLL REVEAL
+const revealEls = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      const counter = e.target.querySelector('[data-target]');
+      if (counter) animateCounter(counter, parseInt(counter.dataset.target));
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.15 });
+revealEls.forEach(el => observer.observe(el));
+
+// ORÇAMENTO CALCULATOR
+const precos = {
+  empresa_1000: { nome: 'Site de Empresa (R$1.000)', valor: 1000, desconto: 500 },
+  empresa_2000: { nome: 'Site de Empresa (R$2.000)', valor: 2000, desconto: 500 },
+  institucional: { nome: 'Site Institucional', valor: 2000, desconto: 0 },
+  personalizado: { nome: 'Site Personalizado', valor: 7000, desconto: 1000 },
+};
+
+function calcOrcamento() {
+  const tipo = document.getElementById('tipo').value;
+  const primeiro = document.getElementById('primeiro').value;
+  const result = document.getElementById('orcResult');
+  const items = document.getElementById('orcItems');
+  const total = document.getElementById('orcTotal');
+  const descontoMsg = document.getElementById('orcDescontoMsg');
+
+  if (!tipo || !primeiro) { result.classList.remove('visible'); return; }
+
+  const p = precos[tipo];
+  const extras = [
+    { id:'extra_logo', nome:'Logo de Empresa', valor:150 },
+    { id:'extra_prop', nome:'Propaganda / Anúncio', valor:50 },
+    { id:'extra_banner', nome:'Banner Digital', valor:100 },
+  ];
+
+  let html = '';
+  let sum = p.valor;
+  let descontoAplicado = 0;
+
+  if (primeiro === 'sim' && p.desconto > 0) {
+    descontoAplicado = p.desconto;
+    sum -= p.desconto;
+  }
+
+  html += `<li><span>${p.nome}</span><span>R$${p.valor.toLocaleString('pt-BR')}</span></li>`;
+  if (descontoAplicado > 0) {
+    html += `<li style="color:#00ff88"><span>🎉 Desconto 1º cliente</span><span>-R$${descontoAplicado.toLocaleString('pt-BR')}</span></li>`;
+  }
+
+  extras.forEach(ex => {
+    if (document.getElementById(ex.id).checked) {
+      sum += ex.valor;
+      html += `<li><span>${ex.nome}</span><span>R$${ex.valor}</span></li>`;
+    }
+  });
+
+  items.innerHTML = html;
+  total.textContent = 'R$' + sum.toLocaleString('pt-BR');
+  descontoMsg.textContent = descontoAplicado > 0 ? `✓ Desconto de R$${descontoAplicado} aplicado por ser seu primeiro pedido!` : '';
+  result.classList.add('visible');
+}
+
+function enviarOrcamento() {
+  const nome = document.getElementById('nome').value;
+  const empresa = document.getElementById('empresa').value;
+  const email = document.getElementById('email').value;
+  const whatsapp = document.getElementById('whatsapp').value;
+  const tipo = document.getElementById('tipo').value;
+  const primeiro = document.getElementById('primeiro').value;
+  const detalhes = document.getElementById('detalhes').value;
+
+  if (!nome || !email || !whatsapp || !tipo || !primeiro) {
+    alert('⚠️ Por favor, preencha todos os campos obrigatórios (*)');
+    return;
+  }
+
+  const p = precos[tipo] || { nome: tipo, valor: 0, desconto: 0 };
+  const extras = [];
+  if (document.getElementById('extra_logo').checked) extras.push('Logo de Empresa (+R$150)');
+  if (document.getElementById('extra_prop').checked) extras.push('Propaganda (+R$50)');
+  if (document.getElementById('extra_banner').checked) extras.push('Banner Digital (+R$100)');
+
+  let msg = `*Olá! Gostaria de solicitar um orçamento* 🚀\n\n`;
+  msg += `*Nome:* ${nome}\n`;
+  if (empresa) msg += `*Empresa:* ${empresa}\n`;
+  msg += `*E-mail:* ${email}\n`;
+  msg += `*WhatsApp:* ${whatsapp}\n`;
+  msg += `*Tipo de Site:* ${p.nome}\n`;
+  msg += `*Primeiro cliente:* ${primeiro === 'sim' ? 'Sim ✓' : 'Não'}\n`;
+  if (extras.length) msg += `*Extras:* ${extras.join(', ')}\n`;
+  if (detalhes) msg += `\n*Detalhes:* ${detalhes}\n`;
+  msg += `\n_Enviado pelo site Code Gyn Studio_`;
+
+  window.open('https://wa.me/5562992988701?text=' + encodeURIComponent(msg), '_blank');
+}
+
+function enviarEmail() {
+  const nome = document.getElementById('nome').value;
+  const empresa = document.getElementById('empresa').value;
+  const tipo = document.getElementById('tipo').value;
+  const detalhes = document.getElementById('detalhes').value;
+
+  if (!nome || !document.getElementById('email').value) {
+    alert('⚠️ Preencha nome e e-mail antes de enviar.');
+    return;
+  }
+
+  const p = precos[tipo] || { nome: tipo };
+  const subject = `Orçamento – ${p.nome || 'Site'} | ${nome}`;
+  let body = `Olá!\n\nGostaria de solicitar um orçamento.\n\n`;
+  body += `Nome: ${nome}\n`;
+  if (empresa) body += `Empresa: ${empresa}\n`;
+  body += `Tipo de Site: ${p.nome || tipo}\n`;
+  if (detalhes) body += `\nDetalhes: ${detalhes}\n`;
+
+  window.location.href = `mailto:ph5652115@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+}
+
+// MODALS
+function openModal(id) {
+  document.getElementById('modal-' + id).classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(id) {
+  document.getElementById('modal-' + id).classList.remove('active');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    document.querySelectorAll('.modal-overlay.active').forEach(m => {
+      m.classList.remove('active');
+    });
+    document.body.style.overflow = '';
+  }
+});
+</script>
+</body>
+</html>
