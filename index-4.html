@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Code Gyn Studio | Especializado em Informática</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+:root{--cyan:#00d4ff;--blue:#0066ff;--navy:#000d1f;--accent:#00ffcc;--white:#e8f4ff;}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--navy);color:var(--white);font-family:'Exo 2',sans-serif;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(0,212,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,0.025) 1px,transparent 1px);background-size:60px 60px;}
+#bgCanvas{position:fixed;inset:0;z-index:0;pointer-events:none;}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:.85rem 3rem;background:rgba(0,5,20,.92);backdrop-filter:blur(20px);border-bottom:1px solid rgba(0,212,255,.18);}
+.nav-logo{display:flex;align-items:center;gap:12px;}
+.nav-logo img{height:50px;width:auto;filter:drop-shadow(0 0 12px rgba(0,212,255,.75));animation:floatLogo 3s ease-in-out infinite;}
+.nav-logo-text{font-family:'Orbitron',sans-serif;font-size:.95rem;font-weight:900;background:linear-gradient(135deg,var(--white),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:1.5px;}
+.nav-links{display:flex;align-items:center;gap:2rem;list-style:none;}
+.nav-links a{color:rgba(232,244,255,.7);text-decoration:none;font-family:'Orbitron',sans-serif;font-size:.68rem;letter-spacing:1.5px;text-transform:uppercase;transition:color .2s;}
+.nav-links a:hover{color:var(--cyan);}
+.nav-cta{background:linear-gradient(135deg,var(--blue),var(--cyan))!important;color:white!important;padding:.55rem 1.3rem;border-radius:5px;font-weight:700!important;-webkit-text-fill-color:white!important;box-shadow:0 0 18px rgba(0,102,255,.4);}
+.hamburger{display:none;background:none;border:1px solid rgba(0,212,255,.3);border-radius:6px;padding:6px 12px;cursor:pointer;color:var(--cyan);font-size:1.2rem;}
+.mobile-menu{display:none;position:fixed;top:64px;left:0;right:0;background:rgba(0,8,25,.98);border-bottom:1px solid rgba(0,212,255,.2);padding:1.5rem;flex-direction:column;gap:1.2rem;z-index:999;}
+.mobile-menu.open{display:flex;}
+.mobile-menu a{color:var(--cyan);text-decoration:none;font-family:'Orbitron',sans-serif;font-size:.8rem;letter-spacing:2px;}
+.mob-cta{background:linear-gradient(135deg,var(--blue),var(--cyan));color:white!important;-webkit-text-fill-color:white!important;padding:.8rem 1.5rem;border-radius:5px;font-weight:700;text-align:center;}
+
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;z-index:1;padding:6rem 2rem 4rem;overflow:hidden;}
+.hero-content{text-align:center;max-width:860px;width:100%;}
+.hero-badge{display:inline-block;padding:.35rem 1.1rem;border:1px solid var(--cyan);border-radius:50px;font-family:'Share Tech Mono',monospace;font-size:.72rem;color:var(--cyan);letter-spacing:3px;margin-bottom:1.8rem;box-shadow:0 0 14px rgba(0,212,255,.18);animation:fadeDown .8s ease both;}
+.hero-title{font-family:'Orbitron',sans-serif;font-weight:900;line-height:1.1;margin-bottom:1.4rem;animation:fadeUp .9s ease .2s both;}
+.t1{display:block;font-size:clamp(2.8rem,8vw,5.5rem);background:linear-gradient(135deg,var(--white) 0%,var(--cyan) 50%,var(--blue) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 28px rgba(0,212,255,.35));}
+.t2{display:block;font-size:clamp(1.2rem,3.5vw,2.2rem);color:var(--white);letter-spacing:10px;opacity:.65;-webkit-text-fill-color:var(--white);}
+.hero-sub{font-size:clamp(.95rem,2vw,1.15rem);color:rgba(232,244,255,.65);margin-bottom:2.5rem;line-height:1.85;animation:fadeUp .9s ease .4s both;}
+.hero-sub strong{color:var(--cyan);}
+.hero-btns{display:flex;gap:1.2rem;justify-content:center;flex-wrap:wrap;animation:fadeUp .9s ease .6s both;}
+.btn-p{display:inline-flex;align-items:center;gap:8px;padding:.95rem 2.2rem;background:linear-gradient(135deg,var(--blue),var(--cyan));color:white;text-decoration:none;border-radius:5px;font-family:'Orbitron',sans-serif;font-size:.8rem;font-weight:700;letter-spacing:2px;box-shadow:0 0 28px rgba(0,102,255,.4);transition:all .3s;-webkit-text-fill-color:white;}
+.btn-p:hover{transform:translateY(-3px);box-shadow:0 10px 36px rgba(0,212,255,.5);}
+.btn-s{display:inline-flex;align-items:center;gap:8px;padding:.95rem 2.2rem;border:1px solid rgba(0,212,255,.3);color:var(--cyan);text-decoration:none;border-radius:5px;font-family:'Orbitron',sans-serif;font-size:.8rem;font-weight:700;letter-spacing:2px;background:rgba(0,100,200,.07);transition:all .3s;}
+.btn-s:hover{border-color:var(--cyan);background:rgba(0,212,255,.1);transform:translateY(-3px);}
+
+.hud-panel{position:absolute;top:22%;right:4%;display:flex;flex-direction:column;gap:.7rem;}
+.hud-item{background:rgba(0,10,30,.85);border:1px solid rgba(0,212,255,.25);border-left:3px solid var(--cyan);padding:.5rem .9rem;font-family:'Share Tech Mono',monospace;font-size:.68rem;color:var(--cyan);white-space:nowrap;}
+.hud-item span{color:var(--accent);}
+.scroll-ind{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.4rem;}
+.scroll-ind span{font-family:'Share Tech Mono',monospace;font-size:.6rem;color:rgba(0,212,255,.45);letter-spacing:3px;}
+.scroll-line{width:1px;height:40px;background:linear-gradient(180deg,var(--cyan),transparent);animation:scrollPulse 2s ease infinite;}
+
+section{position:relative;z-index:1;}
+.divider{height:1px;background:linear-gradient(90deg,transparent,rgba(0,212,255,.2),transparent);margin:0 3rem;position:relative;z-index:1;}
+.sec-header{text-align:center;margin-bottom:3.5rem;}
+.sec-tag{font-family:'Share Tech Mono',monospace;font-size:.72rem;color:var(--cyan);letter-spacing:4px;text-transform:uppercase;display:block;margin-bottom:.8rem;}
+.sec-title{font-family:'Orbitron',sans-serif;font-size:clamp(1.6rem,4vw,2.8rem);font-weight:900;background:linear-gradient(135deg,var(--white),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:1rem;}
+.sec-line{width:72px;height:2px;background:linear-gradient(90deg,var(--blue),var(--cyan));margin:0 auto;box-shadow:0 0 10px var(--cyan);}
+.sec-sub{color:rgba(232,244,255,.55);max-width:580px;margin:1rem auto 0;font-size:.93rem;line-height:1.75;}
+
+#servicos{padding:8rem 2rem;}
+.svc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.8rem;max-width:1180px;margin:0 auto;}
+.svc-card{background:rgba(0,10,40,.65);border:1px solid rgba(0,212,255,.2);border-radius:12px;padding:2rem;position:relative;overflow:hidden;transition:all .4s;}
+.svc-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--blue),var(--cyan),var(--accent));transform:scaleX(0);transition:transform .4s;transform-origin:left;}
+.svc-card:hover{transform:translateY(-8px);border-color:rgba(0,212,255,.5);box-shadow:0 20px 55px rgba(0,0,50,.55);}
+.svc-card:hover::before{transform:scaleX(1);}
+.top-badge{position:absolute;top:1.2rem;right:1.2rem;background:linear-gradient(135deg,var(--blue),var(--cyan));color:white;font-size:.65rem;font-family:'Orbitron',sans-serif;letter-spacing:2px;padding:3px 9px;border-radius:3px;}
+.svc-icon{font-size:2.5rem;margin-bottom:1.2rem;display:block;}
+.svc-name{font-family:'Orbitron',sans-serif;font-size:1.1rem;font-weight:700;color:var(--cyan);margin-bottom:.35rem;}
+.svc-tag{font-size:.7rem;color:rgba(232,244,255,.38);letter-spacing:2px;text-transform:uppercase;margin-bottom:.9rem;font-family:'Share Tech Mono',monospace;}
+.svc-desc{font-size:.88rem;color:rgba(232,244,255,.6);line-height:1.75;margin-bottom:1.5rem;}
+.svc-feat{list-style:none;margin-bottom:1.5rem;}
+.svc-feat li{font-size:.83rem;color:rgba(232,244,255,.7);padding:.3rem 0;display:flex;align-items:center;gap:8px;}
+.svc-feat li::before{content:"▸";color:var(--cyan);font-size:.65rem;}
+.svc-price{border-top:1px solid rgba(0,212,255,.18);padding-top:1.2rem;}
+.p-lbl{font-size:.7rem;color:rgba(232,244,255,.38);letter-spacing:2px;text-transform:uppercase;margin-bottom:.4rem;}
+.p-val{font-family:'Orbitron',sans-serif;font-size:1.9rem;font-weight:900;color:var(--cyan);}
+.p-old{font-size:.85rem;color:rgba(232,244,255,.28);text-decoration:line-through;margin-left:8px;}
+.p-bdg{background:linear-gradient(135deg,#ff6600,#ff3300);color:white;font-size:.62rem;padding:2px 7px;border-radius:3px;margin-left:8px;font-weight:700;}
+.p-note{font-size:.72rem;color:rgba(232,244,255,.3);margin-top:4px;}
+
+#adicionais{padding:0 2rem 8rem;}
+.add-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.3rem;max-width:1180px;margin:0 auto;}
+.add-card{background:rgba(0,10,40,.55);border:1px solid rgba(0,212,255,.2);border-radius:10px;padding:1.4rem 1.8rem;display:flex;align-items:center;gap:1.3rem;transition:all .3s;}
+.add-card:hover{border-color:rgba(0,212,255,.5);transform:translateX(5px);}
+.add-icon{font-size:2rem;flex-shrink:0;}
+.add-name{font-family:'Orbitron',sans-serif;font-size:.88rem;font-weight:700;color:var(--white);margin-bottom:3px;}
+.add-sub{font-size:.75rem;color:rgba(232,244,255,.4);}
+.add-price{font-family:'Orbitron',sans-serif;font-size:1.25rem;font-weight:900;color:var(--accent);white-space:nowrap;margin-left:auto;}
+
+#sobre{padding:8rem 2rem;background:linear-gradient(180deg,transparent,rgba(0,20,60,.28),transparent);}
+.about-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:4rem;max-width:1100px;margin:0 auto;align-items:center;}
+.about-text h2{font-family:'Orbitron',sans-serif;font-size:clamp(1.4rem,3vw,2rem);color:var(--white);margin-bottom:1.3rem;line-height:1.35;}
+.about-text h2 span{color:var(--cyan);}
+.about-text p{color:rgba(232,244,255,.62);line-height:1.8;margin-bottom:1.2rem;font-size:.92rem;}
+.cert-badges{display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1.5rem;}
+.cert-badge{padding:.5rem .9rem;background:rgba(0,10,40,.85);border:1px solid rgba(0,212,255,.25);border-radius:6px;font-size:.78rem;font-weight:600;color:var(--cyan);font-family:'Share Tech Mono',monospace;}
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;}
+.stat-box{background:rgba(0,10,40,.75);border:1px solid rgba(0,212,255,.2);border-radius:10px;padding:1.8rem;text-align:center;position:relative;overflow:hidden;transition:transform .3s;}
+.stat-box:hover{transform:scale(1.05);}
+.stat-box::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--blue),var(--cyan));}
+.stat-num{font-family:'Orbitron',sans-serif;font-size:2.2rem;font-weight:900;color:var(--cyan);display:block;margin-bottom:6px;}
+.stat-lbl{font-size:.75rem;color:rgba(232,244,255,.48);text-transform:uppercase;letter-spacing:1px;}
+
+#tipos{padding:8rem 2rem;}
+.types-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.8rem;max-width:1100px;margin:0 auto 3.5rem;}
+.type-card{background:rgba(0,5,25,.85);border:1px solid rgba(0,212,255,.18);border-radius:12px;padding:2.2rem;text-align:center;transition:all .4s;}
+.type-card:hover{transform:translateY(-10px);box-shadow:0 28px 55px rgba(0,0,50,.5);border-color:rgba(0,212,255,.45);}
+.type-icon{width:76px;height:76px;background:linear-gradient(135deg,#001a3a,rgba(0,102,255,.28));border:1px solid rgba(0,212,255,.2);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1.3rem;font-size:1.9rem;transition:all .3s;}
+.type-card:hover .type-icon{border-color:var(--cyan);box-shadow:0 0 18px rgba(0,212,255,.28);}
+.type-card h3{font-family:'Orbitron',sans-serif;font-size:1rem;color:var(--cyan);margin-bottom:.9rem;}
+.type-card p{font-size:.86rem;color:rgba(232,244,255,.58);line-height:1.8;}
+.info-box{max-width:900px;margin:0 auto 3rem;background:rgba(0,10,40,.9);border:1px solid rgba(0,212,255,.22);border-left:4px solid var(--cyan);border-radius:12px;padding:2rem 2.5rem;display:flex;gap:1.8rem;align-items:flex-start;flex-wrap:wrap;}
+.info-box h4{font-family:'Orbitron',sans-serif;font-size:.9rem;color:var(--cyan);margin-bottom:.7rem;letter-spacing:2px;}
+.info-box p{color:rgba(232,244,255,.62);line-height:1.8;font-size:.88rem;}
+.pix-box{max-width:480px;margin:0 auto;background:rgba(0,10,40,.85);border:1px solid rgba(0,200,100,.28);border-radius:12px;padding:2.2rem;text-align:center;}
+.pix-box .pi{font-size:3.5rem;margin-bottom:.8rem;}
+.pix-box h4{font-family:'Orbitron',sans-serif;font-size:1.2rem;color:#00dd88;margin-bottom:.8rem;}
+.pix-box p{color:rgba(232,244,255,.58);font-size:.88rem;line-height:1.75;}
+
+#orcamento{padding:8rem 2rem;background:linear-gradient(180deg,transparent,rgba(0,15,50,.4),transparent);}
+.form-wrap{max-width:820px;margin:0 auto;background:rgba(0,5,25,.92);border:1px solid rgba(0,212,255,.22);border-radius:16px;padding:clamp(1.5rem,4vw,3rem);position:relative;overflow:hidden;}
+.form-wrap::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#6600ff,var(--blue),var(--cyan),var(--accent));background-size:200% 100%;animation:gradShift 3s ease infinite;}
+.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.3rem;}
+.form-full{grid-column:1/-1;}
+.fg{display:flex;flex-direction:column;gap:.45rem;}
+.fg label{font-family:'Share Tech Mono',monospace;font-size:.7rem;color:var(--cyan);letter-spacing:2px;text-transform:uppercase;}
+.req{color:#ff4466;margin-left:4px;}
+.fg input,.fg select,.fg textarea{background:rgba(0,10,40,.85);border:1px solid rgba(0,212,255,.22);border-radius:6px;padding:.85rem 1.1rem;color:var(--white);font-family:'Exo 2',sans-serif;font-size:.92rem;outline:none;width:100%;transition:border-color .2s;}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--cyan);}
+.fg select option{background:#000d1f;}
+.fg textarea{resize:vertical;min-height:120px;}
+.fg .note{font-size:.72rem;color:rgba(232,244,255,.38);}
+.privacy{background:rgba(0,100,200,.07);border:1px solid rgba(0,212,255,.12);border-radius:6px;padding:.9rem 1.3rem;font-size:.78rem;color:rgba(232,244,255,.48);line-height:1.65;margin:1.3rem 0;}
+.err-msg{background:rgba(255,50,50,.1);border:1px solid rgba(255,50,50,.3);border-radius:6px;padding:.8rem 1.2rem;color:#ff8888;font-size:.85rem;margin-bottom:1rem;display:none;}
+.submit-btn{width:100%;padding:1.15rem;background:linear-gradient(135deg,var(--blue),var(--cyan));border:none;border-radius:8px;color:white;font-family:'Orbitron',sans-serif;font-size:.95rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;cursor:pointer;box-shadow:0 0 28px rgba(0,102,255,.35);transition:all .3s;}
+.submit-btn:hover{transform:translateY(-2px);box-shadow:0 10px 36px rgba(0,212,255,.5);}
+.submit-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+.form-success{display:none;text-align:center;padding:3rem 1rem;}
+.form-success .si{font-size:4rem;margin-bottom:1.5rem;}
+.form-success h3{font-family:'Orbitron',sans-serif;font-size:1.4rem;color:var(--accent);margin-bottom:1rem;}
+.form-success p{color:rgba(232,244,255,.7);line-height:1.8;}
+
+#contato{padding:8rem 2rem;}
+.contact-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:3rem;max-width:1100px;margin:0 auto;}
+.contact-info h3{font-family:'Orbitron',sans-serif;font-size:1.3rem;color:var(--white);margin-bottom:1.8rem;line-height:1.4;}
+.c-items{display:flex;flex-direction:column;gap:1.2rem;}
+.c-item{display:flex;align-items:center;gap:1.2rem;padding:1.3rem;background:rgba(0,10,40,.65);border:1px solid rgba(0,212,255,.2);border-radius:10px;transition:all .3s;text-decoration:none;color:inherit;}
+.c-item:hover{border-color:rgba(0,212,255,.5);transform:translateX(7px);}
+.ci{width:48px;height:48px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.ci-wa{background:rgba(37,211,102,.13);border:1px solid rgba(37,211,102,.28);}
+.ci-em{background:rgba(0,102,255,.13);border:1px solid rgba(0,102,255,.28);}
+.ci-lbl{font-size:.7rem;color:rgba(232,244,255,.4);letter-spacing:2px;text-transform:uppercase;margin-bottom:3px;font-family:'Share Tech Mono',monospace;}
+.ci-val{font-size:.98rem;font-weight:600;color:var(--white);}
+.ci-sub{font-size:.78rem;color:rgba(232,244,255,.45);margin-top:2px;}
+.ccard{background:rgba(0,10,40,.65);border:1px solid rgba(0,212,255,.2);border-radius:16px;padding:2.5rem;}
+.ccard h4{font-family:'Orbitron',sans-serif;font-size:1.1rem;color:var(--cyan);margin-bottom:1rem;text-align:center;}
+.ccard p{font-size:.88rem;color:rgba(232,244,255,.6);line-height:1.8;margin-bottom:1.5rem;text-align:center;}
+.tech-list{display:flex;flex-direction:column;gap:.8rem;}
+.tech-item{display:flex;align-items:center;gap:.8rem;padding:.6rem 1rem;background:rgba(0,20,60,.5);border:1px solid rgba(0,212,255,.15);border-radius:6px;font-family:'Share Tech Mono',monospace;font-size:.82rem;color:rgba(232,244,255,.75);}
+
+footer{border-top:1px solid rgba(0,212,255,.18);padding:2.5rem 3rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;position:relative;z-index:1;}
+.ft-logo{font-family:'Orbitron',sans-serif;font-size:.95rem;font-weight:900;background:linear-gradient(135deg,var(--white),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.ft-mid{font-size:.78rem;color:rgba(232,244,255,.28);text-align:center;font-family:'Share Tech Mono',monospace;line-height:1.7;}
+.ft-copy{font-size:.72rem;color:rgba(232,244,255,.22);font-family:'Share Tech Mono',monospace;}
+
+@keyframes floatLogo{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+@keyframes fadeDown{from{opacity:0;transform:translateY(-18px)}to{opacity:1;transform:none}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
+@keyframes scrollPulse{0%,100%{opacity:.28;height:28px}50%{opacity:1;height:44px}}
+@keyframes gradShift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+.reveal{opacity:0;transform:translateY(36px);transition:opacity .7s ease,transform .7s ease;}
+.reveal.rl{transform:translateX(-36px);}
+.reveal.rr{transform:translateX(36px);}
+.reveal.vis{opacity:1;transform:none;}
+
+@media(max-width:768px){
+  nav{padding:.85rem 1.5rem;}
+  .nav-links{display:none;}
+  .hamburger{display:block;}
+  .hud-panel{display:none;}
+  footer{padding:2rem 1.5rem;}
+  #servicos,#adicionais,#sobre,#tipos,#orcamento,#contato{padding:5rem 1.5rem;}
+}
+@media(min-width:769px){.hamburger{display:none!important;}}
+</style>
+</head>
+<body>
+<canvas id="bgCanvas"></canvas>
+
+<nav>
+  <div class="nav-logo">
+    <img src="logo.png" alt="Code Gyn Studio">
+    <span class="nav-logo-text">CODE GYN STUDIO</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#servicos">Serviços</a></li>
+    <li><a href="#sobre">Sobre</a></li>
+    <li><a href="#tipos">Tipos de Site</a></li>
+    <li><a href="#contato">Contato</a></li>
+    <li><a href="#orcamento" class="nav-cta">Orçamento</a></li>
+  </ul>
+  <button class="hamburger" onclick="document.getElementById('mm').classList.toggle('open')">☰</button>
+</nav>
+<div class="mobile-menu" id="mm">
+  <a href="#servicos" onclick="this.closest('.mobile-menu').classList.remove('open')">Serviços</a>
+  <a href="#sobre" onclick="this.closest('.mobile-menu').classList.remove('open')">Sobre</a>
+  <a href="#tipos" onclick="this.closest('.mobile-menu').classList.remove('open')">Tipos de Site</a>
+  <a href="#contato" onclick="this.closest('.mobile-menu').classList.remove('open')">Contato</a>
+  <a href="#orcamento" class="mob-cta" onclick="this.closest('.mobile-menu').classList.remove('open')">Solicitar Orçamento</a>
+</div>
+
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">ESPECIALIZADO EM INFORMÁTICA E TECNOLOGIA</div>
+    <h1 class="hero-title">
+      <span class="t1">CODE GYN</span>
+      <span class="t2">STUDIO</span>
+    </h1>
+    <p class="hero-sub">Criamos sites do <strong>zero</strong> com as <strong>melhores tecnologias</strong>.<br>Design único, código limpo e tecnologia de ponta para sua empresa crescer no digital.</p>
+    <div class="hero-btns">
+      <a href="#orcamento" class="btn-p">📋 Solicitar Orçamento</a>
+      <a href="#servicos" class="btn-s">ℹ️ Ver Serviços</a>
+    </div>
+  </div>
+  <div class="hud-panel">
+    <div class="hud-item">STATUS: <span>ONLINE</span></div>
+    <div class="hud-item">TECH: <span>FULL STACK</span></div>
+    <div class="hud-item">MODO: <span>3D + ANIM</span></div>
+    <div class="hud-item">PIX: <span>DISPONÍVEL</span></div>
+  </div>
+  <div class="scroll-ind"><span>SCROLL</span><div class="scroll-line"></div></div>
+</section>
+<div class="divider"></div>
+
+<section id="servicos">
+  <div class="sec-header reveal"><span class="sec-tag">SERVIÇOS</span><h2 class="sec-title">O que eu ofereço</h2><div class="sec-line"></div><p class="sec-sub">Cada projeto é construído do zero com as melhores linguagens: Python, Java, JavaScript, HTML e CSS. Nada de templates prontos, seu site é único.</p></div>
+  <div class="svc-grid">
+    <div class="svc-card reveal">
+      <span class="svc-icon">🏢</span><div class="svc-name">Site de Empresa</div><div class="svc-tag">[ BÁSICO ]</div>
+      <p class="svc-desc">Ideal para marcas pequenas, médias e grandes que precisam de uma presença digital profissional.</p>
+      <ul class="svc-feat"><li>Design responsivo e moderno</li><li>Página institucional completa</li><li>Formulário de contato</li><li>Integração com redes sociais</li><li>Otimizado para SEO</li></ul>
+      <div class="svc-price"><div class="p-lbl">INVESTIMENTO</div>
+        <div style="margin-bottom:.5rem"><span class="p-val">R$500</span><span class="p-old">R$1.000</span><span class="p-bdg">1º PEDIDO</span></div>
+        <div><span style="font-size:.82rem;color:rgba(232,244,255,.4)">ou </span><span class="p-val" style="font-size:1.5rem">R$1.500</span><span class="p-old">R$2.000</span><span class="p-bdg">1º PEDIDO</span></div>
+        <div class="p-note">* Domínio adquirido à parte</div>
+      </div>
+    </div>
+    <div class="svc-card reveal" style="transition-delay:.1s">
+      <span class="svc-icon">🏛️</span><div class="svc-name">Site Institucional</div><div class="svc-tag">[ AVANÇADO ]</div>
+      <p class="svc-desc">Páginas avançadas com múltiplas seções, animações e funcionalidades para empresas que querem se destacar.</p>
+      <ul class="svc-feat"><li>Múltiplas páginas internas</li><li>Animações e transições avançadas</li><li>Blog ou área de notícias</li><li>Painel administrativo</li><li>Integração com APIs</li></ul>
+      <div class="svc-price"><div class="p-lbl">INVESTIMENTO</div><span class="p-val">R$2.000</span><div class="p-note">* Domínio adquirido à parte</div></div>
+    </div>
+    <div class="svc-card reveal" style="transition-delay:.2s;border-color:rgba(0,212,255,.35)">
+      <div class="top-badge">TOP</div>
+      <span class="svc-icon">🚀</span><div class="svc-name">Site Personalizado</div><div class="svc-tag">[ PREMIUM 3D ]</div>
+      <p class="svc-desc">Projetos 3D, autônomos e completamente personalizados. Para quem quer um site verdadeiramente único.</p>
+      <ul class="svc-feat"><li>Elementos 3D interativos</li><li>Animações exclusivas</li><li>Funcionalidades avançadas</li><li>Sistemas de automação</li><li>Suporte prioritário</li></ul>
+      <div class="svc-price"><div class="p-lbl">INVESTIMENTO</div><span class="p-val">R$6.000</span><span class="p-old">R$7.000</span><span class="p-bdg">1º PEDIDO</span><div class="p-note">* Domínio adquirido à parte</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="adicionais">
+  <div class="sec-header reveal"><span class="sec-tag">TAMBÉM FAÇO</span><h2 class="sec-title">Serviços Adicionais</h2><div class="sec-line"></div></div>
+  <div class="add-grid">
+    <div class="add-card reveal"><div class="add-icon">💎</div><div><div class="add-name">Logo de Empresa</div><div class="add-sub">Identidade visual profissional</div></div><div class="add-price">R$150</div></div>
+    <div class="add-card reveal" style="transition-delay:.1s"><div class="add-icon">📢</div><div><div class="add-name">Propaganda / Anúncios</div><div class="add-sub">Anúncios pequenos e objetivos</div></div><div class="add-price">R$50</div></div>
+    <div class="add-card reveal" style="transition-delay:.2s"><div class="add-icon">🖼️</div><div><div class="add-name">Banner Digital</div><div class="add-sub">Banners para redes sociais e web</div></div><div class="add-price">R$100</div></div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<section id="sobre">
+  <div class="about-grid">
+    <div class="about-text reveal rl">
+      <span class="sec-tag" style="margin-bottom:1rem;display:block">SOBRE MIM</span>
+      <h2>Formado em <span>TI e Cybersegurança</span> pelo SENAI e SENAC</h2>
+      <p>Tenho formação em Tecnologia da Informação e Cybersegurança pelo <strong style="color:var(--cyan)">SENAI e SENAC</strong>, instituições reconhecidas nacionalmente. Qualidade e segurança garantidas em cada entrega.</p>
+      <p>Os sites são desenvolvidos com múltiplas linguagens: <strong style="color:var(--cyan)">Python, Java, JavaScript, HTML e CSS</strong> — escolhemos a melhor tecnologia para cada projeto. Sem templates prontos, seu site é 100% único.</p>
+      <p>Entrego o modelo completo do site pronto. O domínio é adquirido separadamente pelo cliente, você escolhe o nome que quiser.</p>
+      <div class="cert-badges"><span class="cert-badge">🎓 SENAI — TI</span><span class="cert-badge">🛡️ SENAC — Cyberseg.</span><span class="cert-badge">💻 Full Stack Dev</span></div>
+    </div>
+    <div class="stats-grid reveal rr">
+      <div class="stat-box"><span class="stat-num">100%</span><span class="stat-lbl">Código original</span></div>
+      <div class="stat-box"><span class="stat-num">3+</span><span class="stat-lbl">Tipos de projeto</span></div>
+      <div class="stat-box"><span class="stat-num">24h</span><span class="stat-lbl">Suporte disponível</span></div>
+      <div class="stat-box"><span class="stat-num">🔒</span><span class="stat-lbl">Segurança garantida</span></div>
+    </div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<section id="tipos">
+  <div class="sec-header reveal"><span class="sec-tag">ENTENDA OS TIPOS</span><h2 class="sec-title">Qual site é o certo para você?</h2><div class="sec-line"></div></div>
+  <div class="types-grid">
+    <div class="type-card reveal"><div class="type-icon">🏢</div><h3>Site de Empresa</h3><p>Site básico para apresentar sua empresa online. Ideal para quem quer presença digital rápida e profissional com página inicial, sobre, serviços e contato.</p></div>
+    <div class="type-card reveal" style="transition-delay:.1s"><div class="type-icon">🏛️</div><h3>Site Institucional</h3><p>Versão mais completa com mais páginas, blog, área de notícias, galeria e integrações com sistemas externos. Para empresas que querem mais recursos.</p></div>
+    <div class="type-card reveal" style="transition-delay:.2s"><div class="type-icon">🚀</div><h3>Site Personalizado</h3><p>O topo da linha. Projetos com elementos 3D interativos, animações exclusivas e sistemas automatizados. Para quem quer impressionar e se destacar.</p></div>
+  </div>
+  <div class="info-box reveal" style="max-width:900px;margin:0 auto 3rem">
+    <div style="font-size:2.5rem;flex-shrink:0">🌐</div>
+    <div><h4>SOBRE O DOMÍNIO</h4><p>O endereço do seu site (como <em>www.suaempresa.com.br</em>) é adquirido separadamente pelo cliente. Você escolhe o nome exato que quiser. Entrego o site completo e pronto, e conectamos ao domínio escolhido.</p></div>
+  </div>
+  <div class="pix-box reveal" style="max-width:480px;margin:0 auto">
+    <div class="pi">💸</div><h4>Pagamento via PIX</h4>
+    <p>Trabalhamos exclusivamente com <strong style="color:#00dd88">PIX</strong> para maior segurança e praticidade. Rápido, sem taxas e disponível 24 horas por dia.</p>
+  </div>
+</section>
+<div class="divider"></div>
+
+<section id="orcamento">
+  <div class="sec-header reveal"><span class="sec-tag">ORÇAMENTO</span><h2 class="sec-title">Solicite seu Orçamento</h2><div class="sec-line"></div><p class="sec-sub">Preencha o formulário com seus dados e as informações do projeto. Entraremos em contato para finalizar os detalhes.</p></div>
+  <div class="form-wrap reveal">
+    <div id="fArea">
+      <div class="form-grid">
+        <div class="fg"><label>Nome Completo<span class="req">*</span></label><input type="text" id="fNome" placeholder="Seu nome completo"></div>
+        <div class="fg"><label>CPF<span class="req">*</span></label><input type="text" id="fCpf" placeholder="000.000.000-00" maxlength="14"><span class="note">🔒 Necessário para formalização do contrato</span></div>
+        <div class="fg"><label>E-mail<span class="req">*</span></label><input type="email" id="fEmail" placeholder="seu@email.com"></div>
+        <div class="fg"><label>WhatsApp<span class="req">*</span></label><input type="tel" id="fWhats" placeholder="(62) 9 0000-0000"></div>
+        <div class="fg"><label>Contato Alternativo</label><input type="tel" id="fTel" placeholder="Outro número (opcional)"><span class="note">ℹ️ Não obrigatório</span></div>
+        <div class="fg"><label>Tipo de Serviço<span class="req">*</span></label>
+          <select id="fTipo">
+            <option value="">Selecione...</option>
+            <option value="empresa-1000">Site de Empresa Básico — R$1.000</option>
+            <option value="empresa-2000">Site de Empresa — R$2.000</option>
+            <option value="institucional">Site Institucional — R$2.000</option>
+            <option value="personalizado">Site Personalizado 3D — R$7.000</option>
+            <option value="logo">Logo de Empresa — R$150</option>
+            <option value="propaganda">Propaganda / Anúncio — R$50</option>
+            <option value="banner">Banner Digital — R$100</option>
+            <option value="multiplos">Múltiplos serviços</option>
+          </select>
+        </div>
+        <div class="fg form-full"><label>É seu primeiro pedido?<span class="req">*</span></label>
+          <select id="fPrimeiro">
+            <option value="">Selecione...</option>
+            <option value="sim">Sim — tenho direito ao desconto de 1º pedido!</option>
+            <option value="nao">Não — já sou cliente</option>
+          </select>
+        </div>
+        <div class="fg form-full"><label>Descrição do Projeto<span class="req">*</span></label><textarea id="fDesc" placeholder="Descreva o que você precisa: tipo de negócio, funcionalidades, cores, referências, prazo..."></textarea></div>
+        <div class="fg form-full"><label>Domínio pretendido</label><input type="text" id="fDom" placeholder="Ex: www.minhaempresa.com.br (opcional)"><span class="note">ℹ️ O domínio é adquirido à parte pelo cliente</span></div>
+      </div>
+      <div class="privacy">🔒 Seus dados estão seguros. O CPF é coletado exclusivamente para formalização contratual e nunca será compartilhado com terceiros.</div>
+      <div class="err-msg" id="errMsg"></div>
+      <button class="submit-btn" id="subBtn" onclick="submitForm()">⚡ ENVIAR SOLICITAÇÃO DE ORÇAMENTO</button>
+    </div>
+    <div class="form-success" id="fOk">
+      <div class="si">✅</div>
+      <h3>Orçamento Enviado!</h3>
+      <p>Recebemos sua solicitação com sucesso!<br>Entraremos em contato em breve.<br><br><strong style="color:var(--cyan)">WhatsApp: (62) 9 9289-4867</strong></p>
+      <a href="https://wa.me/5562992894867" target="_blank" class="btn-p" style="display:inline-flex;margin-top:2rem;text-decoration:none">💬 Falar pelo WhatsApp</a>
+    </div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<section id="contato">
+  <div class="sec-header reveal"><span class="sec-tag">CONTATO</span><h2 class="sec-title">Fale Comigo</h2><div class="sec-line"></div></div>
+  <div class="contact-grid">
+    <div class="contact-info reveal rl">
+      <h3>Pronto para transformar sua presença digital?</h3>
+      <div class="c-items">
+        <a href="https://wa.me/5562992988701" target="_blank" class="c-item">
+          <div class="ci ci-wa"><svg width="26" height="26" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg></div>
+          <div><div class="ci-lbl">WhatsApp Pessoal</div><div class="ci-val">(62) 9 9298-8701</div></div>
+        </a>
+        <a href="https://wa.me/5562992894867" target="_blank" class="c-item">
+          <div class="ci ci-wa"><svg width="26" height="26" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg></div>
+          <div><div class="ci-lbl">WhatsApp Empresa</div><div class="ci-val">(62) 9 9289-4867</div><div class="ci-sub">Atendimento oficial</div></div>
+        </a>
+        <a href="mailto:ph5652115@gmail.com" class="c-item">
+          <div class="ci ci-em"><svg width="26" height="26" fill="#0066ff" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></div>
+          <div><div class="ci-lbl">E-mail</div><div class="ci-val">ph5652115@gmail.com</div></div>
+        </a>
+      </div>
+    </div>
+    <div class="ccard reveal rr">
+      <h4>Vamos Criar Juntos!</h4>
+      <p>Atendimento via WhatsApp ou e-mail. Respondo rapidamente e analiso cada projeto com atenção e profissionalismo.</p>
+      <div class="tech-list">
+        <div class="tech-item">🐍 Python</div>
+        <div class="tech-item">☕ Java</div>
+        <div class="tech-item">⚡ JavaScript</div>
+        <div class="tech-item">🎨 HTML &amp; CSS</div>
+        <div class="tech-item">🌐 3D &amp; Animações</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="ft-logo">CODE GYN STUDIO</div>
+  <div class="ft-mid"><div>Especializado em Informática · Python · Java · JavaScript · HTML · CSS</div><div>ph5652115@gmail.com · (62) 9 9289-4867</div></div>
+  <div class="ft-copy">© 2025 Code Gyn Studio</div>
+</footer>
+
+<script>
+(function(){
+  var c=document.getElementById('bgCanvas'),ctx=c.getContext('2d'),raf;
+  function resize(){c.width=window.innerWidth;c.height=window.innerHeight;}
+  resize();window.addEventListener('resize',resize);
+  function mkP(){return{x:Math.random()*c.width,y:Math.random()*c.height,vx:(Math.random()-.5)*.35,vy:(Math.random()-.5)*.35,sz:Math.random()*1.4+.3,al:Math.random()*.45+.08,col:Math.random()>.5?'0,212,255':'0,102,255'};}
+  var pts=[];for(var i=0;i<80;i++)pts.push(mkP());
+  function draw(){
+    ctx.clearRect(0,0,c.width,c.height);
+    var g=ctx.createRadialGradient(c.width/2,c.height/2,0,c.width/2,c.height/2,c.width*.7);
+    g.addColorStop(0,'rgba(0,20,60,0.3)');g.addColorStop(1,'rgba(0,0,0,0)');
+    ctx.fillStyle=g;ctx.fillRect(0,0,c.width,c.height);
+    for(var i=0;i<pts.length;i++){
+      var p=pts[i];p.x+=p.vx;p.y+=p.vy;
+      if(p.x<0||p.x>c.width||p.y<0||p.y>c.height){pts[i]=mkP();continue;}
+      ctx.beginPath();ctx.arc(p.x,p.y,p.sz,0,Math.PI*2);
+      ctx.fillStyle='rgba('+p.col+','+p.al+')';ctx.fill();
+      for(var j=i+1;j<pts.length;j++){
+        var q=pts[j],dx=p.x-q.x,dy=p.y-q.y,d=Math.sqrt(dx*dx+dy*dy);
+        if(d<110){ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);ctx.strokeStyle='rgba(0,212,255,'+(1-d/110)*.1+')';ctx.lineWidth=.5;ctx.stroke();}
+      }
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+var obs=new IntersectionObserver(function(en){en.forEach(function(e){if(e.isIntersecting)e.target.classList.add('vis');});},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(function(el){obs.observe(el);});
+
+document.getElementById('fCpf').addEventListener('input',function(){
+  var v=this.value.replace(/\D/g,'');
+  v=v.replace(/(\d{3})(\d)/,'$1.$2').replace(/(\d{3})(\d)/,'$1.$2').replace(/(\d{3})(\d{1,2})$/,'$1-$2');
+  this.value=v;
+});
+
+function validCPF(s){
+  s=s.replace(/\D/g,'');
+  if(s.length!==11||/^(\d){10}$/.test(s))return false;
+  var t=0;for(var i=0;i<9;i++)t+=+s[i]*(10-i);
+  var r=(t*10)%11;if(r>=10)r=0;if(r!==+s[9])return false;
+  t=0;for(var i=0;i<10;i++)t+=+s[i]*(11-i);
+  r=(t*10)%11;if(r>=10)r=0;return r===+s[10];
+}
+
+function submitForm(){
+  var n=document.getElementById('fNome').value.trim();
+  var cpf=document.getElementById('fCpf').value.trim();
+  var em=document.getElementById('fEmail').value.trim();
+  var wh=document.getElementById('fWhats').value.trim();
+  var tp=document.getElementById('fTipo').value;
+  var pr=document.getElementById('fPrimeiro').value;
+  var dc=document.getElementById('fDesc').value.trim();
+  var err=document.getElementById('errMsg');
+  err.style.display='none';
+  if(!n||n.split(' ').length<2){err.textContent='⚠️ Informe seu nome completo.';err.style.display='block';return;}
+  if(!validCPF(cpf)){err.textContent='⚠️ CPF inválido. Verifique e tente novamente.';err.style.display='block';return;}
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)){err.textContent='⚠️ Informe um e-mail válido.';err.style.display='block';return;}
+  if(wh.replace(/\D/g,'').length<10){err.textContent='⚠️ Informe um WhatsApp válido.';err.style.display='block';return;}
+  if(!tp){err.textContent='⚠️ Selecione o tipo de serviço.';err.style.display='block';return;}
+  if(!pr){err.textContent='⚠️ Informe se é seu primeiro pedido.';err.style.display='block';return;}
+  if(dc.length<20){err.textContent='⚠️ Descreva melhor o projeto (mínimo 20 caracteres).';err.style.display='block';return;}
+  var btn=document.getElementById('subBtn');
+  btn.textContent='⏳ PROCESSANDO...';btn.disabled=true;
+  setTimeout(function(){
+    var msg=encodeURIComponent('NOVO ORCAMENTO - Code Gyn Studio\n\nNome: '+n+'\nCPF: '+cpf+'\nEmail: '+em+'\nWhatsApp: '+wh+'\nTipo: '+tp+'\nPrimeiro Pedido: '+(pr==='sim'?'SIM (desconto)':'NAO')+'\n\nProjeto:\n'+dc);
+    document.getElementById('fArea').style.display='none';
+    document.getElementById('fOk').style.display='block';
+    window.open('https://wa.me/5562992894867?text='+msg,'_blank');
+  },1500);
+}
+</script>
+</body>
+</html>
